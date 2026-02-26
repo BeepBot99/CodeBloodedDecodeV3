@@ -1,8 +1,29 @@
 plugins {
-    id("dev.frozenmilk.teamcode") version "11.0.0-1.1.0"
+    id("dev.frozenmilk.teamcode") version "11.1.0-1.1.2"
+    id("dev.frozenmilk.sinister.sloth.load") version "0.2.4"
 }
 
 ftc {
-    // adds the necessary sdk dependencies
-    sdk.TeamCode()
+    sdk {
+        TeamCode("11.1.0")
+    }
+
+    dairy {
+        implementation(Sloth)
+        implementation(slothboard)
+        implementation(ftControl.fullpanels)
+    }
+
+    pedro {
+        implementation(ftc("2.1.0-beta.1"))
+        implementation(telemetry)
+    }
+}
+
+dependencies {
+    implementation("com.github.haifengl:smile-interpolation:2.6.0") {
+        exclude(group = "org.slf4j")
+    }
+    implementation("com.pedropathing:ivy:0.0.1")
+    implementation("dev.nextftc:control2:0.0.3")
 }
