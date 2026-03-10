@@ -25,5 +25,4 @@ dependencies {
         exclude(group = "org.slf4j")
     }
     implementation("com.pedropathing:ivy:0.0.1")
-    implementation("dev.nextftc:control2:0.0.3")
 }
