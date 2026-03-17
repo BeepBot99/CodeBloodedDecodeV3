@@ -59,7 +59,7 @@ public final class Drivetrain {
         if (alliance == Alliance.RED) {
             headingTargetRadians = Math.toRadians(gateOpenHeadingDegrees);
         } else {
-            headingTargetRadians = Math.toRadians(Math.PI - gateOpenHeadingDegrees);
+            headingTargetRadians = Math.PI - Math.toRadians(gateOpenHeadingDegrees);
         }
     }
 
