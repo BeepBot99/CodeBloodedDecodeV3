@@ -9,7 +9,7 @@ public final class SOTM {
         Vector virtualPose = robotPose;
         for (int i = 0; i < ITERATIONS; i++) {
             double airTime = Interpolation.getAirTime(virtualPose);
-            virtualPose = robotPose.minus(robotVelocity.times(airTime));
+            virtualPose = robotPose.plus(robotVelocity.times(airTime));
         }
         return virtualPose;
     }
