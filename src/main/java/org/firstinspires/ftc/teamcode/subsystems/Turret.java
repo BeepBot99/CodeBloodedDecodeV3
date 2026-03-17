@@ -37,7 +37,9 @@ public final class Turret {
     }
 
     private static double legalizeAngle(double angle) {
-        return angle < minimumAngleDegrees ? angle + 360 : angle;
+        while (angle < minimumAngleDegrees) angle += 360;
+        while (angle >= minimumAngleDegrees + 360) angle -= 360;
+        return angle;
     }
 
     private double getRawAngleDegrees() {
@@ -100,6 +102,7 @@ public final class Turret {
 
             context.telemetry.addData("Turret/angle", getAngleDegrees());
             context.telemetry.addData("Turret/target", targetDegrees);
+            context.telemetry.addData("Turret/error", targetDegrees - getAngleDegrees());
             context.telemetry.addData("Turret/power", turretMotor.getPower());
             context.telemetry.addData("Turret/mode", mode);
         });
