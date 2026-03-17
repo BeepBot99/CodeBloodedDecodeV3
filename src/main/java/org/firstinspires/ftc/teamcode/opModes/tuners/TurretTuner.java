@@ -13,12 +13,19 @@ public class TurretTuner extends RobotOpMode {
     public static boolean waveEnabled = false;
     public static double wavePeriod = 1;
     public static double waveHigh = 90;
-    public static double waveLow = -5;
+    public static double waveLow = 0;
     private final ElapsedTime timer = new ElapsedTime();
+
+    @Override
+    public void init() {
+        super.init();
+        turret.setStartingAngle(0);
+    }
 
     @Override
     public void loop() {
         if (on) {
+            turret.on();
             if (waveEnabled) {
                 if (timer.seconds() > wavePeriod / 2) {
                     timer.reset();

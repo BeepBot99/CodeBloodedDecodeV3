@@ -15,7 +15,7 @@ public final class Turret {
     private static final double TICKS_PER_REVOLUTION = 384.5 * 3;
     public static double minimumAngleDegrees = -90;
     public static double incrementDegrees = 2.5;
-    public static PIDFCoefficients coefficients = new PIDFCoefficients(0.06, 0, 0.0013, 0);
+    public static PIDFCoefficients coefficients = new PIDFCoefficients(0.025, 0, 0.0012, 0);
     private static double angleTransfer = 0;
     private final DcMotorEx turretMotor;
     private final Context context;
@@ -89,7 +89,7 @@ public final class Turret {
             switch (mode) {
                 case POSITION:
                     controller.updateError(targetDegrees - getAngleDegrees());
-                    turretMotor.setPower(controller.run() * 0.5);
+                    turretMotor.setPower(controller.run());
                     break;
                 case OFF:
                     turretMotor.setPower(0);
