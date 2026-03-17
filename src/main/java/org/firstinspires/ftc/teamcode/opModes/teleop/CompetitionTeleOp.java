@@ -70,8 +70,8 @@ public class CompetitionTeleOp extends RobotOpMode {
 
         if (gamepad2.leftTriggerWasPressed()) blocker.assembly();
 
-        if (gamepad2.leftBumperWasPressed()) Alliance.current = Alliance.RED;
-        if (gamepad2.rightBumperWasPressed()) Alliance.current = Alliance.BLUE;
+        if (gamepad2.leftBumperWasPressed()) setAlliance(Alliance.RED);
+        if (gamepad2.rightBumperWasPressed()) setAlliance(Alliance.BLUE);
 
         if (gamepad2.crossWasPressed()) drivetrain.follower.setPose(
                 alliance() == Alliance.RED ? new Pose(8.1, 7.5, 0) : new Pose(141.5 - 8.1, 7.5, Math.PI)

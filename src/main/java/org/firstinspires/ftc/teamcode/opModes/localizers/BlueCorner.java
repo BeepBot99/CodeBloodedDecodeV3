@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
 import org.firstinspires.ftc.teamcode.subsystems.Turret;
 import org.firstinspires.ftc.teamcode.util.Alliance;
+import org.firstinspires.ftc.teamcode.util.RobotOpMode;
 
 @Autonomous(name = "Blue Corner", group = "Localizers")
 public class BlueCorner extends LinearOpMode {
@@ -13,7 +14,7 @@ public class BlueCorner extends LinearOpMode {
     public void runOpMode() {
         Turret.localize(0);
         Drivetrain.localize(new Pose(7.5, 8.1, Math.PI / 2).mirror());
-        Alliance.current = Alliance.BLUE;
+        RobotOpMode.setAlliance(Alliance.BLUE);
     }
 }
 

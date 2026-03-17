@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.subsystems.*;
 import static com.pedropathing.ivy.Scheduler.schedule;
 
 public abstract class RobotOpMode extends OpMode {
+    private static Alliance currentAlliance = Alliance.RED;
     protected Blocker blocker;
     protected Drivetrain drivetrain;
     protected Turret turret;
@@ -33,8 +34,12 @@ public abstract class RobotOpMode extends OpMode {
         );
     }
 
-    protected final Alliance alliance() {
-        return Alliance.current;
+    protected static Alliance alliance() {
+        return currentAlliance;
+    }
+
+    public static void setAlliance(Alliance alliance) {
+        currentAlliance = alliance;
     }
 
     @Override
