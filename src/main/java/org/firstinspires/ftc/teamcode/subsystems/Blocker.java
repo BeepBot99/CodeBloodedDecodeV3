@@ -9,8 +9,8 @@ import static com.pedropathing.ivy.commands.Commands.infinite;
 
 @Config
 public final class Blocker {
-    public static double blockPosition = 0.17;
-    public static double unblockPosition = 0.28;
+    public static double blockPosition = 0.93;
+    public static double unblockPosition = 0.775;
     public static double assemblyPosition = 0;
 
     private final Servo blockerServo;

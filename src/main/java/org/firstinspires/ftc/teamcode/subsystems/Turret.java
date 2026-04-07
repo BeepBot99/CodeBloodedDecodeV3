@@ -15,7 +15,7 @@ public final class Turret {
     private static final double TICKS_PER_REVOLUTION = 384.5 * 3;
     public static double minimumAngleDegrees = -90;
     public static double incrementDegrees = 2.5;
-    public static PIDFCoefficients coefficients = new PIDFCoefficients(0.025, 0, 0.0012, 0);
+    public static PIDFCoefficients coefficients = new PIDFCoefficients(0.02567, 0, 0.000867, 0);
     private static double angleTransfer = 0;
     private final DcMotorEx turretMotor;
     private final Context context;
@@ -37,16 +37,14 @@ public final class Turret {
     }
 
     private static double legalizeAngle(double angle) {
-        while (angle < minimumAngleDegrees) angle += 360;
-        while (angle >= minimumAngleDegrees + 360) angle -= 360;
-        return angle;
+        return ((angle - minimumAngleDegrees) % 360 + 360) % 360 + minimumAngleDegrees;
     }
 
     private double getRawAngleDegrees() {
         return turretMotor.getCurrentPosition() / TICKS_PER_REVOLUTION * 360;
     }
 
-    private double getAngleDegrees() {
+    public double getAngleDegrees() {
         return getRawAngleDegrees() + angleOffsetDegrees;
     }
 

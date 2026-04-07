@@ -11,7 +11,7 @@ import static com.pedropathing.ivy.commands.Commands.*;
 @Config
 public final class Intake {
     public static double fastPower = -1;
-    public static double slowPower = -0.6;
+    public static double slowPower = -1;
     public static double offPower = 0;
     public static double reversePower = 1;
     public static double shortReverseTimeMs = 150;

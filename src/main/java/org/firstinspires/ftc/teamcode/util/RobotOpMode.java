@@ -13,26 +13,8 @@ public abstract class RobotOpMode extends OpMode {
     protected Turret turret;
     protected Flywheel flywheel;
     protected Intake intake;
+    protected Hood hood;
     protected Context context;
-
-    @Override
-    public void init() {
-        context = new Context(this);
-
-        blocker = new Blocker(context);
-        drivetrain = new Drivetrain(context);
-        turret = new Turret(context);
-        flywheel = new Flywheel(context);
-        intake = new Intake(context);
-
-        schedule(
-                blocker.periodic(),
-                drivetrain.periodic(),
-                turret.periodic(),
-                flywheel.periodic(),
-                intake.periodic()
-        );
-    }
 
     protected static Alliance alliance() {
         return currentAlliance;
@@ -40,6 +22,28 @@ public abstract class RobotOpMode extends OpMode {
 
     public static void setAlliance(Alliance alliance) {
         currentAlliance = alliance;
+    }
+
+    @Override
+    public void init() {
+        Scheduler.reset();
+        context = new Context(this);
+
+        blocker = new Blocker(context);
+        drivetrain = new Drivetrain(context);
+        turret = new Turret(context);
+        flywheel = new Flywheel(context);
+        intake = new Intake(context);
+        hood = new Hood(context);
+
+        schedule(
+                blocker.periodic(),
+                drivetrain.periodic(),
+                turret.periodic(),
+                flywheel.periodic(),
+                intake.periodic(),
+                hood.periodic()
+        );
     }
 
     @Override

@@ -32,7 +32,6 @@ public final class Interpolation {
                     {0, 0}
             });
 
-
     private static final Interpolation2D flywheelVelocityClose = new BilinearInterpolation(
             new double[]{38, 61, 85},
             new double[]{135.5, 111, 88, 63},

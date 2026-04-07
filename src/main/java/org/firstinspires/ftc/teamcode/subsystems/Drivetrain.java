@@ -112,9 +112,7 @@ public final class Drivetrain {
         return infinite(() -> {
             poseTransfer = follower.getPose();
 
-            context.telemetry.addData("Drivetrain/current x", follower.getPose().getX());
-            context.telemetry.addData("Drivetrain/current y", follower.getPose().getY());
-            context.telemetry.addData("Drivetrain/current heading (deg)", Math.toDegrees(follower.getHeading()));
+            context.addPose("Drivetrain/current", follower.getPose());
             context.telemetry.addData("Drivetrain/heading locked", lockHeading);
             context.telemetry.addData("Drivetrain/heading target", headingTargetRadians);
         });

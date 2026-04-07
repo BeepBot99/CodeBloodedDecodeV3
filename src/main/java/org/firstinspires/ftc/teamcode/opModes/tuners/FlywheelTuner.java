@@ -13,6 +13,7 @@ public class FlywheelTuner extends RobotOpMode {
     @Override
     public void loop() {
         if (on) {
+            flywheel.on();
             flywheel.setTarget(target);
         } else {
             flywheel.off();
