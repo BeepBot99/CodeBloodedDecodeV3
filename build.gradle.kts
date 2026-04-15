@@ -15,7 +15,7 @@ ftc {
     }
 
     pedro {
-        implementation(ftc("2.1.0-beta.1"))
+        implementation(ftc("2.1.1"))
         implementation(telemetry)
     }
 }
@@ -24,5 +24,5 @@ dependencies {
     implementation("com.github.haifengl:smile-interpolation:2.6.0") {
         exclude(group = "org.slf4j")
     }
-    implementation("com.pedropathing:ivy:0.0.1")
+    implementation("com.pedropathing:ivy:1.0.0")
 }
