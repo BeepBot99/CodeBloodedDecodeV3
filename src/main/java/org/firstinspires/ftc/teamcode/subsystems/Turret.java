@@ -12,7 +12,7 @@ import static com.pedropathing.ivy.commands.Commands.infinite;
 
 @Config
 public final class Turret {
-    private static final double TICKS_PER_REVOLUTION = 384.5 * 3;
+    private static final double TICKS_PER_REVOLUTION = 8192;
     public static double minimumAngleDegrees = -90;
     public static double incrementDegrees = 2.5;
     public static PIDFCoefficients coefficients = new PIDFCoefficients(0.02567, 0, 0.000867, 0);
