@@ -6,6 +6,7 @@ import com.pedropathing.control.PIDFController;
 import com.pedropathing.ivy.Command;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.teamcode.util.Context;
 
 import static com.pedropathing.ivy.commands.Commands.infinite;
@@ -15,7 +16,7 @@ public final class Turret {
     private static final double TICKS_PER_REVOLUTION = 8192;
     public static double minimumAngleDegrees = -90;
     public static double incrementDegrees = 2.5;
-    public static PIDFCoefficients coefficients = new PIDFCoefficients(0.02567, 0, 0.000867, 0);
+    public static PIDFCoefficients coefficients = new PIDFCoefficients(0.02, 0, 0.00085, 0);
     private static double angleTransfer = 0;
     private final DcMotorEx turretMotor;
     private final Context context;
@@ -89,7 +90,7 @@ public final class Turret {
             switch (mode) {
                 case POSITION:
                     controller.updateError(targetDegrees - getAngleDegrees());
-                    turretMotor.setPower(controller.run());
+                    turretMotor.setPower(-controller.run());
                     break;
                 case OFF:
                     turretMotor.setPower(0);
