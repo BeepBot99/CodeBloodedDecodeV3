@@ -16,7 +16,7 @@ public class AngularVelocityTuner extends RobotOpMode {
 
         drivetrain.usePreviousStartingPose();
         turret.usePreviousStartingAngle();
-        shootingController = new ShootingController(context, turret, flywheel);
+        shootingController = new ShootingController(context, turret, flywheel, hood);
     }
 
     @Override
@@ -28,7 +28,8 @@ public class AngularVelocityTuner extends RobotOpMode {
         shootingController.prepareForLocation(
                 drivetrain.follower.getPose(),
                 drivetrain.follower.getVelocity(),
-                drivetrain.follower.getAngularVelocity()
+                drivetrain.follower.getAngularVelocity(),
+                alliance()
         );
 
         context.telemetry.addData("gain", (turret.getTargetDegrees() - turret.getAngleDegrees()) / drivetrain.follower.getAngularVelocity());

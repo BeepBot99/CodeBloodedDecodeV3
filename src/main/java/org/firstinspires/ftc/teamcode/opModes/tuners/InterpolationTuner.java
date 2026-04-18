@@ -56,6 +56,8 @@ public class InterpolationTuner extends RobotOpMode {
 
         if (gamepad1.triangleWasPressed()) flywheel.toggle();
 
+        context.telemetry.addData("skibidi turret angle", turret.getAngleDegrees() + Math.toDegrees(drivetrain.follower.getHeading()));
+
         super.loop();
     }
 }

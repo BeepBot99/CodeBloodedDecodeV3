@@ -10,7 +10,7 @@ import static com.pedropathing.ivy.commands.Commands.infinite;
 @Config
 public final class Blocker {
     public static double blockPosition = 0.415;
-    public static double unblockPosition = 0.24;
+    public static double unblockPosition = 0.23;
 
     private final Servo blockerServo;
     private final Context context;

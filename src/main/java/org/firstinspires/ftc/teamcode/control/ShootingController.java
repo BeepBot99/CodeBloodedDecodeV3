@@ -7,35 +7,42 @@ import org.firstinspires.ftc.teamcode.math.Interpolation;
 import org.firstinspires.ftc.teamcode.math.SOTM;
 import org.firstinspires.ftc.teamcode.math.TurretKinematics;
 import org.firstinspires.ftc.teamcode.subsystems.Flywheel;
+import org.firstinspires.ftc.teamcode.subsystems.Hood;
 import org.firstinspires.ftc.teamcode.subsystems.Turret;
+import org.firstinspires.ftc.teamcode.util.Alliance;
 import org.firstinspires.ftc.teamcode.util.Context;
 
 @Config("Shooting Controller")
 public final class ShootingController {
-    public static double turningGain = 3.45;
+    public static double turningGain = 3.8;
     private final Context context;
     private final Turret turret;
     private final Flywheel flywheel;
+    private final Hood hood;
 
-    public ShootingController(Context context, Turret turret, Flywheel flywheel) {
+    public ShootingController(Context context, Turret turret, Flywheel flywheel, Hood hood) {
         this.context = context;
         this.turret = turret;
         this.flywheel = flywheel;
+        this.hood = hood;
     }
 
-    public void prepareForLocation(Pose robotPose, Vector robotVelocity, double angularVelocity) {
+    public void prepareForLocation(Pose robotPose, Vector robotVelocity, double angularVelocity, Alliance alliance) {
         Pose turretPose = TurretKinematics.getTurretPose(robotPose);
 
         Vector turretVelocity = TurretKinematics.getTurretVelocity(robotVelocity, angularVelocity, robotPose.getHeading());
 
-        Vector virtualTurretPose = SOTM.calculateVirtualRobot(turretPose.getAsVector(), turretVelocity);
+        Vector virtualTurretPose = SOTM.calculateVirtualRobot(turretPose.getAsVector(), turretVelocity, alliance);
 //        Vector virtualTurretPose = turretPose.getAsVector();
 
-        double flywheelVelocity = Interpolation.getFlywheelVelocity(virtualTurretPose);
-        double turretAngle = Interpolation.getTurretAngle(virtualTurretPose);
+        double flywheelVelocity = Interpolation.getFlywheelVelocity(virtualTurretPose, alliance);
+        double turretAngle = Interpolation.getTurretAngle(virtualTurretPose, alliance);
 
         flywheel.setTarget(flywheelVelocity);
         turret.setTargetDegrees(turretAngle - Math.toDegrees(robotPose.getHeading()) - turningGain * angularVelocity);
+
+        double hoodPosition = Interpolation.getHood(virtualTurretPose, alliance);
+        hood.setPosition(hoodPosition);
 
         context.addPose("Turret/current", turretPose);
 

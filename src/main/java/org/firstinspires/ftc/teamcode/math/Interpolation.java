@@ -1,28 +1,29 @@
 package org.firstinspires.ftc.teamcode.math;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.pedropathing.math.Vector;
+import org.firstinspires.ftc.teamcode.util.Alliance;
 import smile.interpolation.BilinearInterpolation;
 import smile.interpolation.Interpolation2D;
 
+@Config("Interpolation")
 public final class Interpolation {
     private static final Interpolation2D flywheelVelocityFar = new BilinearInterpolation(
             new double[]{43, 71, 100},
             new double[]{6, 27},
             new double[][]{
-                    {1675, 1640},
-                    {1675, 1520},
-                    {1620, 1520}
+                    {0, 0},
+                    {0, 0},
+                    {0, 0},
             });
-
     private static final Interpolation2D turretAngleFar = new BilinearInterpolation(
             new double[]{43, 71, 100},
             new double[]{6, 27},
             new double[][]{
-                    {55.2, 54},
-                    {61, 58},
-                    {79, 75}
+                    {0, 0},
+                    {0, 0},
+                    {0, 0},
             });
-
     private static final Interpolation2D airTimeFar = new BilinearInterpolation(
             new double[]{43, 71, 100},
             new double[]{6, 27},
@@ -31,38 +32,61 @@ public final class Interpolation {
                     {0, 0},
                     {0, 0}
             });
-
+    private static final Interpolation2D hoodFar = new BilinearInterpolation(
+            new double[]{43, 71, 100},
+            new double[]{6, 27},
+            new double[][]{
+                    {0, 0},
+                    {0, 0},
+                    {0, 0}
+            });
     private static final Interpolation2D flywheelVelocityClose = new BilinearInterpolation(
-            new double[]{38, 61, 85},
-            new double[]{135.5, 111, 88, 63},
+            new double[]{99, 78, 55, 31},
+            new double[]{135, 110, 85, 62},
             new double[][]{
-                    {1400, 1430, 1470, 1520},
-                    {1375, 1380, 1390, 1415},
-                    {1338, 1325, 1330, 1350},
+                    {1100, 1100, 1330, 1405},
+                    {1220, 1260, 1325, 1405},
+                    {1325, 1345, 1395, 1405},
+                    {1485, 1470, 1510, 1405}
             }
     );
-
     private static final Interpolation2D turretAngleClose = new BilinearInterpolation(
-            new double[]{38, 61, 85},
-            new double[]{135.5, 111, 88, 63},
+            new double[]{99, 78, 55, 31},
+            new double[]{135, 110, 85, 62},
             new double[][]{
-                    {1.3, 2.8, 27.5, 37.5},
-                    {3, 16.5, 32, 45},
-                    {5.5, 28, 41, 56},
+                    {7, 32.1, 50, 49.6},
+                    {3, 25.1, 37, 49.6},
+                    {2.5, 18.2, 33.3, 49.6},
+                    {3.7, 13.9, 24.9, 49.6}
             }
     );
-
     private static final Interpolation2D airTimeClose = new BilinearInterpolation(
-            new double[]{38, 61, 85},
-            new double[]{135.5, 111, 88, 63},
+            new double[]{99, 78, 55, 31},
+            new double[]{135, 110, 85, 62},
             new double[][]{
-                    {0, 0, 0, 0},
-                    {0, 0, 0, 0},
-                    {0, 0, 0, 0},
+                    {0.41, 0.54, 0.38, 0.35},
+                    {0.44, 0.38, 0.27, 0.35},
+                    {0.45, 0.36, 0.42, 0.35},
+                    {0.53, 0.5, 0.39, 0.35}
             }
     );
+    private static final Interpolation2D hoodClose = new BilinearInterpolation(
+            new double[]{99, 78, 55, 31},
+            new double[]{135, 110, 85, 62},
+            new double[][]{
+                    {0, 0.25, 0.75, 0.7},
+                    {0.55, 0.65, 0.8, 0.7},
+                    {0.5, 0.7, 0.68, 0.7},
+                    {0.55, 0.7, 0.76, 0.7}
+            }
+    );
+    public static double airTimeMultiplier = 1.6;
 
-    private static double interpolate(Interpolation2D closeInterpolation, Interpolation2D farInterpolation, Vector pose) {
+    private static double interpolate(Interpolation2D closeInterpolation, Interpolation2D farInterpolation, Vector pose, Alliance alliance) {
+        if (alliance == Alliance.BLUE) {
+            pose = new Vector();
+            pose.setOrthogonalComponents(141.5 - pose.getXComponent(), pose.getYComponent());
+        }
         if (pose.getYComponent() > 48) {
             return closeInterpolation.interpolate(pose.getXComponent(), pose.getYComponent());
         } else {
@@ -70,15 +94,19 @@ public final class Interpolation {
         }
     }
 
-    public static double getFlywheelVelocity(Vector pose) {
-        return interpolate(flywheelVelocityClose, flywheelVelocityFar, pose);
+    public static double getFlywheelVelocity(Vector pose, Alliance alliance) {
+        return interpolate(flywheelVelocityClose, flywheelVelocityFar, pose, alliance);
     }
 
-    public static double getTurretAngle(Vector pose) {
-        return interpolate(turretAngleClose, turretAngleFar, pose);
+    public static double getTurretAngle(Vector pose, Alliance alliance) {
+        return interpolate(turretAngleClose, turretAngleFar, pose, alliance);
     }
 
-    public static double getAirTime(Vector pose) {
-        return interpolate(airTimeClose, airTimeFar, pose);
+    public static double getAirTime(Vector pose, Alliance alliance) {
+        return interpolate(airTimeClose, airTimeFar, pose, alliance) * airTimeMultiplier;
+    }
+
+    public static double getHood(Vector pose, Alliance alliance) {
+        return interpolate(hoodClose, hoodFar, pose, alliance);
     }
 }

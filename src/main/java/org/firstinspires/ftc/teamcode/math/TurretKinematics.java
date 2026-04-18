@@ -4,7 +4,7 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.math.Vector;
 
 public final class TurretKinematics {
-    public static double turretOffsetInches = -1.496;
+    public static double turretOffsetInches = -3;
 
     public static Pose getTurretPose(Pose robotPose) {
         return new Pose(

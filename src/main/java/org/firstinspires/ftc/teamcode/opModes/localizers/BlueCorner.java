@@ -13,7 +13,7 @@ public class BlueCorner extends LinearOpMode {
     @Override
     public void runOpMode() {
         Turret.localize(0);
-        Drivetrain.localize(new Pose(7.5, 8.1, Math.PI / 2).mirror());
+        Drivetrain.localize(new Pose(6.5, 9, Math.PI / 2).mirror());
         RobotOpMode.setAlliance(Alliance.BLUE);
     }
 }

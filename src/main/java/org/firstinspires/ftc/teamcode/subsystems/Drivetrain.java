@@ -80,7 +80,6 @@ public final class Drivetrain {
             turn = signedSquare(turn);
         }
 
-
         if (alliance == Alliance.BLUE) headingRadians += Math.PI;
 
         double x = strafe * Math.cos(headingRadians) + forward * Math.sin(headingRadians);

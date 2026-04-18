@@ -18,18 +18,22 @@ public class CompetitionTeleOp extends RobotOpMode {
 
         drivetrain.usePreviousStartingPose();
         turret.usePreviousStartingAngle();
-        shootingController = new ShootingController(context, turret, flywheel);
+        blocker.block();
+        shootingController = new ShootingController(context, turret, flywheel, hood);
     }
 
     @Override
     public void start() {
         blocker.block();
-        turret.on();
+//        turret.on();
     }
 
     @Override
     public void loop() {
         drivetrain.update();
+
+        if (drivetrain.follower.getPose().getY() < 48) turret.off();
+        else turret.on();
 
         if (Math.abs(gamepad1.right_stick_x) >= 0.1) drivetrain.unlockHeading();
 
@@ -43,7 +47,8 @@ public class CompetitionTeleOp extends RobotOpMode {
         shootingController.prepareForLocation(
                 drivetrain.follower.getPose(),
                 drivetrain.follower.getVelocity(),
-                drivetrain.follower.getAngularVelocity()
+                drivetrain.follower.getAngularVelocity(),
+                alliance()
         );
 
         if (drivetrain.follower.getPose().getY() < 48 && gamepad1.right_trigger >= 0.1) {

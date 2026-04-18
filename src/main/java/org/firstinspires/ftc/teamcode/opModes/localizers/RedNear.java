@@ -8,12 +8,12 @@ import org.firstinspires.ftc.teamcode.subsystems.Turret;
 import org.firstinspires.ftc.teamcode.util.Alliance;
 import org.firstinspires.ftc.teamcode.util.RobotOpMode;
 
-@Autonomous(name = "Red Corner", group = "Localizers")
-public class RedCorner extends LinearOpMode {
+@Autonomous(name = "Red Near", group = "Localizers")
+public class RedNear extends LinearOpMode {
     @Override
     public void runOpMode() {
         Turret.localize(0);
-        Drivetrain.localize(new Pose(6.5, 9, Math.PI / 2));
+        Drivetrain.localize(new Pose(118, 123, Math.toRadians(36.5)));
         RobotOpMode.setAlliance(Alliance.RED);
     }
 }
