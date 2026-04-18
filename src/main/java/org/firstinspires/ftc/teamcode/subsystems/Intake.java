@@ -22,7 +22,7 @@ public final class Intake {
 
     public Intake(Context context) {
         this.context = context;
-        intakeMotor = context.hardwareMap.get(DcMotorEx.class, "intake");
+        intakeMotor = context.motor("intake");
     }
 
     public Command on() {

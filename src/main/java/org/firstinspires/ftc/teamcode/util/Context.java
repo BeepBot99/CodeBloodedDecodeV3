@@ -6,7 +6,11 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+import dev.frozenmilk.dairy.cachinghardware.CachingDcMotorEx;
+import dev.frozenmilk.dairy.cachinghardware.CachingServo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config("Settings")
@@ -34,5 +38,13 @@ public final class Context {
             telemetry.addData(name + " y", pose.getY());
             telemetry.addData(name + " heading (deg)", Math.toDegrees(pose.getHeading()));
         }
+    }
+
+    public Servo servo(String name) {
+        return new CachingServo(hardwareMap.servo.get(name));
+    }
+
+    public DcMotorEx motor(String name) {
+        return new CachingDcMotorEx(hardwareMap.get(DcMotorEx.class, name));
     }
 }

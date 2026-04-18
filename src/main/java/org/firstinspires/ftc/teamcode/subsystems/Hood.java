@@ -19,7 +19,7 @@ public final class Hood {
     public Hood(Context context) {
         this.context = context;
 
-        hoodServo = context.hardwareMap.get(Servo.class, "hood");
+        hoodServo = context.servo("hood");
     }
 
     public double getPosition() {

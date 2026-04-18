@@ -27,7 +27,7 @@ public final class Turret {
 
     public Turret(Context context) {
         this.context = context;
-        turretMotor = context.hardwareMap.get(DcMotorEx.class, "turret");
+        turretMotor = context.motor("turret");
 
         turretMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         turretMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

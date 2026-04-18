@@ -25,4 +25,5 @@ dependencies {
         exclude(group = "org.slf4j")
     }
     implementation("com.pedropathing:ivy:1.0.0")
+    implementation("dev.frozenmilk.dairy:CachingHardware:1.0.0")
 }

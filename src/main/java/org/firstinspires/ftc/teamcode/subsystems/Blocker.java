@@ -17,7 +17,7 @@ public final class Blocker {
 
     public Blocker(Context context) {
         this.context = context;
-        blockerServo = context.hardwareMap.get(Servo.class, "blocker");
+        blockerServo = context.servo("blocker");
     }
 
     public void block() {

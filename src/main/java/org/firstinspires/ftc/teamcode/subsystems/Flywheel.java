@@ -22,8 +22,8 @@ public final class Flywheel {
 
     public Flywheel(Context context) {
         this.context = context;
-        flywheelMotorTop = context.hardwareMap.get(DcMotorEx.class, "flywheelTop");
-        flywheelMotorBottom = context.hardwareMap.get(DcMotorEx.class, "flywheelBottom");
+        flywheelMotorTop = context.motor("flywheelTop");
+        flywheelMotorBottom = context.motor("flywheelBottom");
         flywheelMotorBottom.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 

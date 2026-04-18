@@ -35,10 +35,10 @@ public final class Drivetrain {
     public Drivetrain(Context context) {
         this.context = context;
         follower = Constants.createFollower(context.hardwareMap);
-        frontLeft = context.hardwareMap.get(DcMotorEx.class, "frontLeft");
-        frontRight = context.hardwareMap.get(DcMotorEx.class, "frontRight");
-        backLeft = context.hardwareMap.get(DcMotorEx.class, "backLeft");
-        backRight = context.hardwareMap.get(DcMotorEx.class, "backRight");
+        frontLeft = context.motor("frontLeft");
+        frontRight = context.motor("frontRight");
+        backLeft = context.motor("backLeft");
+        backRight = context.motor("backRight");
 
         frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
