@@ -21,19 +21,17 @@ public class AngularVelocityTuner extends RobotOpMode {
 
     @Override
     public void loop() {
-        drivetrain.update();
+        wrapLoop(() -> {
+            drivetrain.arcadeDrive(0, 0, 1, Alliance.RED);
 
-        drivetrain.arcadeDrive(0, 0, 1, Alliance.RED);
+            shootingController.prepareForLocation(
+                    drivetrain.follower.getPose(),
+                    drivetrain.follower.getVelocity(),
+                    drivetrain.follower.getAngularVelocity(),
+                    alliance()
+            );
 
-        shootingController.prepareForLocation(
-                drivetrain.follower.getPose(),
-                drivetrain.follower.getVelocity(),
-                drivetrain.follower.getAngularVelocity(),
-                alliance()
-        );
-
-        context.telemetry.addData("gain", (turret.getTargetDegrees() - turret.getAngleDegrees()) / drivetrain.follower.getAngularVelocity());
-
-        super.loop();
+            context.telemetry.addData("gain", (turret.getTargetDegrees() - turret.getAngleDegrees()) / drivetrain.follower.getAngularVelocity());
+        });
     }
 }

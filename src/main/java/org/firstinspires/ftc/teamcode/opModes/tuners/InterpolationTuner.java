@@ -27,37 +27,35 @@ public class InterpolationTuner extends RobotOpMode {
 
     @Override
     public void loop() {
-        drivetrain.update();
+        wrapLoop(() -> {
+            drivetrain.arcadeDrive(
+                    -gamepad1.left_stick_y,
+                    gamepad1.left_stick_x,
+                    gamepad1.right_stick_x,
+                    alliance()
+            );
 
-        drivetrain.arcadeDrive(
-                -gamepad1.left_stick_y,
-                gamepad1.left_stick_x,
-                gamepad1.right_stick_x,
-                alliance()
-        );
+            hood.setPosition(hoodPosition);
+            flywheel.setTarget(flywheelVelocity);
 
-        hood.setPosition(hoodPosition);
-        flywheel.setTarget(flywheelVelocity);
+            if (gamepad1.rightTriggerWasPressed()) {
+                blocker.unblock();
+            }
 
-        if (gamepad1.rightTriggerWasPressed()) {
-            blocker.unblock();
-        }
+            if (gamepad1.rightTriggerWasReleased()) {
+                blocker.block();
+            }
 
-        if (gamepad1.rightTriggerWasReleased()) {
-            blocker.block();
-        }
+            Pose turretPose = TurretKinematics.getTurretPose(drivetrain.follower.getPose());
+            context.addPose("Turret/current", turretPose);
 
-        Pose turretPose = TurretKinematics.getTurretPose(drivetrain.follower.getPose());
-        context.addPose("Turret/current", turretPose);
+            if (gamepad1.rightBumperWasPressed()) intake.off().schedule();
+            if (gamepad1.rightBumperWasReleased()) intake.on().schedule();
+            if (gamepad1.leftBumperWasPressed()) intake.shortReverse().schedule();
 
-        if (gamepad1.rightBumperWasPressed()) intake.off().schedule();
-        if (gamepad1.rightBumperWasReleased()) intake.on().schedule();
-        if (gamepad1.leftBumperWasPressed()) intake.shortReverse().schedule();
+            if (gamepad1.triangleWasPressed()) flywheel.toggle();
 
-        if (gamepad1.triangleWasPressed()) flywheel.toggle();
-
-        context.telemetry.addData("skibidi turret angle", turret.getAngleDegrees() + Math.toDegrees(drivetrain.follower.getHeading()));
-
-        super.loop();
+            context.telemetry.addData("skibidi turret angle", turret.getAngleDegrees() + Math.toDegrees(drivetrain.follower.getHeading()));
+        });
     }
 }

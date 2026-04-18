@@ -24,18 +24,19 @@ public class TurretTuner extends RobotOpMode {
 
     @Override
     public void loop() {
-        if (on) {
-            turret.on();
-            if (waveEnabled) {
-                if (timer.seconds() > wavePeriod / 2) {
-                    timer.reset();
-                    target = turret.getTargetDegrees() == waveLow ? waveHigh : waveLow;
+        wrapLoop(() -> {
+            if (on) {
+                turret.on();
+                if (waveEnabled) {
+                    if (timer.seconds() > wavePeriod / 2) {
+                        timer.reset();
+                        target = turret.getTargetDegrees() == waveLow ? waveHigh : waveLow;
+                    }
                 }
+                turret.setTargetDegrees(target);
+            } else {
+                turret.off();
             }
-            turret.setTargetDegrees(target);
-        } else {
-            turret.off();
-        }
-        super.loop();
+        });
     }
 }

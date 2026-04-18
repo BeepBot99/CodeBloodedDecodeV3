@@ -10,8 +10,8 @@ import static com.pedropathing.ivy.commands.Commands.*;
 
 @Config
 public final class Intake {
-    public static double fastPower = -1;
-    public static double slowPower = -1;
+    public static boolean logCurrent = false;
+    public static double onPower = -1;
     public static double offPower = 0;
     public static double reversePower = 1;
     public static double shortReverseTimeMs = 150;
@@ -57,7 +57,7 @@ public final class Intake {
         return infinite(() -> {
             switch (mode) {
                 case ON:
-                    intakeMotor.setPower(slowMode ? slowPower : fastPower);
+                    intakeMotor.setPower(onPower);
                     break;
                 case OFF:
                     intakeMotor.setPower(offPower);
@@ -67,7 +67,8 @@ public final class Intake {
                     break;
             }
 
-            context.telemetry.addData("Intake/current", intakeMotor.getCurrent(CurrentUnit.AMPS));
+            if (logCurrent) context.telemetry.addData("Intake/current", intakeMotor.getCurrent(CurrentUnit.AMPS));
+            context.telemetry.addData("Intake/velocity", intakeMotor.getVelocity());
             context.telemetry.addData("Intake/power", intakeMotor.getPower());
         });
     }

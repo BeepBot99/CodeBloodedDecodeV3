@@ -79,40 +79,38 @@ public class PositionTuner extends RobotOpMode {
 
     @Override
     public void loop() {
-        drivetrain.update();
-
-        drivetrain.arcadeDrive(
-                -gamepad1.left_stick_y,
-                gamepad1.left_stick_x,
-                gamepad1.right_stick_x,
-                alliance()
-        );
-
-        List<AprilTagDetection> detections = processor.getDetections();
-        context.telemetry.addData("AprilTag/Detections", detections.size());
-
-        for (AprilTagDetection detection : detections) {
-            if (detection.metadata == null || detection.metadata.name.contains("Obelisk")) continue;
-
-            Pose2D sdkPose = new Pose2D(
-                    DistanceUnit.INCH,
-                    detection.robotPose.getPosition().x,
-                    detection.robotPose.getPosition().y,
-                    AngleUnit.DEGREES,
-                    detection.robotPose.getOrientation().getYaw()
+        wrapLoop(() -> {
+            drivetrain.arcadeDrive(
+                    -gamepad1.left_stick_y,
+                    gamepad1.left_stick_x,
+                    gamepad1.right_stick_x,
+                    alliance()
             );
 
-            Pose ftcPose = PoseConverter.pose2DToPose(sdkPose, InvertedFTCCoordinates.INSTANCE);
+            List<AprilTagDetection> detections = processor.getDetections();
+            context.telemetry.addData("AprilTag/Detections", detections.size());
 
-            Pose pose = ftcPose.getAsCoordinateSystem(PedroCoordinates.INSTANCE);
+            for (AprilTagDetection detection : detections) {
+                if (detection.metadata == null || detection.metadata.name.contains("Obelisk")) continue;
 
-            context.addPose(detection.metadata.name, pose);
+                Pose2D sdkPose = new Pose2D(
+                        DistanceUnit.INCH,
+                        detection.robotPose.getPosition().x,
+                        detection.robotPose.getPosition().y,
+                        AngleUnit.DEGREES,
+                        detection.robotPose.getOrientation().getYaw()
+                );
 
-            fusion.addMeasurement(pose, System.nanoTime());
-        }
+                Pose ftcPose = PoseConverter.pose2DToPose(sdkPose, InvertedFTCCoordinates.INSTANCE);
 
-        context.addPose("Fusion", follower.getPose());
+                Pose pose = ftcPose.getAsCoordinateSystem(PedroCoordinates.INSTANCE);
 
-        super.loop();
+                context.addPose(detection.metadata.name, pose);
+
+                fusion.addMeasurement(pose, System.nanoTime());
+            }
+
+            context.addPose("Fusion", follower.getPose());
+        });
     }
 }
