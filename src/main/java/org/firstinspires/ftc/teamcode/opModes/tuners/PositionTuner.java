@@ -13,6 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.pedroPathing.FusionLocalizer;
+import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
 import org.firstinspires.ftc.teamcode.util.RobotOpMode;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
@@ -25,9 +26,9 @@ public class PositionTuner extends RobotOpMode {
 
     private static final Position cameraPosition = new Position(
             DistanceUnit.INCH,
-            2.2782,
-            8.139,
-            8.3053,
+            2.204,
+            5.96,
+            8.82,
             0
     );
 
@@ -49,9 +50,9 @@ public class PositionTuner extends RobotOpMode {
 
         fusion = new FusionLocalizer(
                 new PinpointLocalizer(hardwareMap, Constants.localizerConstants),
-                new Pose(0.5, 0.5, Math.toRadians(2)),
-                new Pose(0.05, 0.05, Math.toDegrees(0.5)),
-                new Pose(2, 2, Math.toDegrees(3)),
+                new Pose(0.25, 0.25, Math.toRadians(2)),
+                new Pose(1.5 / 60, 1.5 / 60, 0),
+                new Pose(2.1561, 2.6065, 0.0248),
                 100
         );
 
@@ -62,6 +63,8 @@ public class PositionTuner extends RobotOpMode {
                 .build();
 
         drivetrain.usePreviousStartingPose();
+
+        follower.setStartingPose(Drivetrain.poseTransfer);
 
         processor = new AprilTagProcessor.Builder()
                 .setCameraPose(cameraPosition, cameraOrientation)
@@ -79,6 +82,7 @@ public class PositionTuner extends RobotOpMode {
     @Override
     public void loop() {
         wrapLoop(() -> {
+            follower.update();
             drivetrain.arcadeDrive(
                     -gamepad1.left_stick_y,
                     gamepad1.left_stick_x,
@@ -97,7 +101,7 @@ public class PositionTuner extends RobotOpMode {
                 Pose pose = new Pose(
                         detection.robotPose.getPosition().y + 72,
                         -detection.robotPose.getPosition().x + 72,
-                        detection.robotPose.getOrientation().getYaw()
+                        detection.robotPose.getOrientation().getYaw(AngleUnit.RADIANS)
                 );
 
                 context.addPose(detection.metadata.name, pose);

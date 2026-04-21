@@ -21,7 +21,7 @@ import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 public final class Drivetrain {
     public static PIDFCoefficients headingCoefficients = new PIDFCoefficients(1.75, 0, 0.09, 0);
     public static double gateOpenHeadingDegrees = 36.5;
-    private static Pose poseTransfer = new Pose();
+    public static Pose poseTransfer = new Pose(); // TODO: make private
     public final DcMotorEx frontLeft;
     public final DcMotorEx frontRight;
     public final DcMotorEx backLeft;

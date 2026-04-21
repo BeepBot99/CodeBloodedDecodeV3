@@ -23,9 +23,9 @@ public class MeasurementStdevTuner extends RobotOpMode {
 
     private static final Position cameraPosition = new Position(
             DistanceUnit.INCH,
-            2.2782,
-            8.139,
-            8.3053,
+            2.204,
+            5.96,
+            8.82,
             0
     );
     private static final YawPitchRollAngles cameraOrientation = new YawPitchRollAngles(
@@ -83,7 +83,7 @@ public class MeasurementStdevTuner extends RobotOpMode {
                     Pose pose = new Pose(
                             detection.robotPose.getPosition().y + 72,
                             -detection.robotPose.getPosition().x + 72,
-                            detection.robotPose.getOrientation().getYaw()
+                            detection.robotPose.getOrientation().getYaw(AngleUnit.RADIANS)
                     );
 
                     context.addPose(detection.metadata.name, pose);

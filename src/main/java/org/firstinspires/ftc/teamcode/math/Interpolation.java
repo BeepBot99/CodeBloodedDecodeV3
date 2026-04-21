@@ -99,7 +99,9 @@ public final class Interpolation {
     }
 
     public static double getTurretAngle(Vector pose, Alliance alliance) {
-        return interpolate(turretAngleClose, turretAngleFar, pose, alliance);
+        double angle =  interpolate(turretAngleClose, turretAngleFar, pose, alliance);
+        if (alliance == Alliance.BLUE) angle = 180 - angle;
+        return angle;
     }
 
     public static double getAirTime(Vector pose, Alliance alliance) {
