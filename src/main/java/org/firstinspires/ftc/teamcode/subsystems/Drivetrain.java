@@ -4,12 +4,15 @@ import com.acmerobotics.dashboard.config.Config;
 import com.pedropathing.control.PIDFCoefficients;
 import com.pedropathing.control.PIDFController;
 import com.pedropathing.follower.Follower;
+import com.pedropathing.ftc.FollowerBuilder;
+import com.pedropathing.ftc.localization.localizers.PinpointLocalizer;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.ivy.Command;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.control.AprilTagLocalizer;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.util.Alliance;
 import org.firstinspires.ftc.teamcode.util.Context;
@@ -31,10 +34,22 @@ public final class Drivetrain {
     private final PIDFController headingController = new PIDFController(headingCoefficients);
     private boolean lockHeading = false;
     private double headingTargetRadians = 0;
+    private final AprilTagLocalizer aprilTags;
 
     public Drivetrain(Context context) {
         this.context = context;
-        follower = Constants.createFollower(context.hardwareMap);
+
+        aprilTags = new AprilTagLocalizer(
+                context,
+                new PinpointLocalizer(context.hardwareMap, Constants.localizerConstants)
+        );
+
+        follower = new FollowerBuilder(Constants.followerConstants, context.hardwareMap)
+                .mecanumDrivetrain(Constants.driveConstants)
+                .pathConstraints(Constants.pathConstraints)
+                .setLocalizer(aprilTags.getLocalizer())
+                .build();
+
         frontLeft = context.motor("frontLeft");
         frontRight = context.motor("frontRight");
         backLeft = context.motor("backLeft");
@@ -105,6 +120,7 @@ public final class Drivetrain {
 
     public void update() {
         follower.update();
+        aprilTags.update();
     }
 
     public Command periodic() {
