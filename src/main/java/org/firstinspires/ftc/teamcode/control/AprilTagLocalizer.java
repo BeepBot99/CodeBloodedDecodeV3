@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.control;
 
 import android.util.Size;
-import com.pedropathing.ftc.localization.localizers.PinpointLocalizer;
+import com.acmerobotics.dashboard.config.Config;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.localization.Localizer;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -9,7 +9,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.pedroPathing.FusionLocalizer;
 import org.firstinspires.ftc.teamcode.util.Context;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -18,6 +17,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.List;
 
+@Config("AprilTags")
 public final class AprilTagLocalizer {
     private static final Position cameraPosition = new Position(
             DistanceUnit.INCH,
@@ -26,7 +26,6 @@ public final class AprilTagLocalizer {
             8.82,
             0
     );
-
     private static final YawPitchRollAngles cameraOrientation = new YawPitchRollAngles(
             AngleUnit.DEGREES,
             0,
@@ -34,14 +33,10 @@ public final class AprilTagLocalizer {
             180,
             0
     );
-
     private final Context context;
     private final AprilTagProcessor processor;
     private final FusionLocalizer fusion;
-
-    public Localizer getLocalizer() {
-        return fusion;
-    }
+    public static int latencyMs = 50;
 
     public AprilTagLocalizer(Context context, Localizer localizer) {
         this.context = context;
@@ -67,6 +62,10 @@ public final class AprilTagLocalizer {
                 .build();
     }
 
+    public Localizer getLocalizer() {
+        return fusion;
+    }
+
     public void update() {
         List<AprilTagDetection> detections = processor.getDetections();
 
@@ -83,7 +82,7 @@ public final class AprilTagLocalizer {
 
             context.addPose("AprilTags/" + detection.metadata.name, pose);
 
-            fusion.addMeasurement(pose, System.nanoTime() - 50_000_000);
+            fusion.addMeasurement(pose, System.nanoTime() - latencyMs * 1_000_000L);
         }
     }
 }
