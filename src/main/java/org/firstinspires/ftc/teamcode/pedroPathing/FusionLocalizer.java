@@ -236,7 +236,7 @@ public class FusionLocalizer implements Localizer {
     }
 
     @Override
-    public Pose getPose() { return currentPosition; }
+    public Pose getPose() { return currentPosition.withHeading(deadReckoning.getPose().getHeading()); }
 
     @Override
     public Pose getVelocity() {

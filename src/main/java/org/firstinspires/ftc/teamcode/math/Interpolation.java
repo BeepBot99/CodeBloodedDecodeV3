@@ -9,32 +9,32 @@ import smile.interpolation.Interpolation2D;
 @Config("Interpolation")
 public final class Interpolation {
     private static final Interpolation2D flywheelVelocityFar = new BilinearInterpolation(
-            new double[]{43, 71, 100},
-            new double[]{6, 27},
+            new double[]{41.8, 0, 0},
+            new double[]{4.8, 0},
             new double[][]{
                     {0, 0},
                     {0, 0},
                     {0, 0},
             });
     private static final Interpolation2D turretAngleFar = new BilinearInterpolation(
-            new double[]{43, 71, 100},
-            new double[]{6, 27},
+            new double[]{41.8, 0, 0},
+            new double[]{4.8, 0},
             new double[][]{
                     {0, 0},
                     {0, 0},
                     {0, 0},
             });
     private static final Interpolation2D airTimeFar = new BilinearInterpolation(
-            new double[]{43, 71, 100},
-            new double[]{6, 27},
+            new double[]{41.8, 0, 0},
+            new double[]{4.8, 0},
             new double[][]{
                     {0, 0},
                     {0, 0},
                     {0, 0}
             });
     private static final Interpolation2D hoodFar = new BilinearInterpolation(
-            new double[]{43, 71, 100},
-            new double[]{6, 27},
+            new double[]{41.8, 0, 0},
+            new double[]{4.8, 0},
             new double[][]{
                     {0, 0},
                     {0, 0},

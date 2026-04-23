@@ -40,10 +40,12 @@ public class InterpolationTuner extends RobotOpMode {
 
             if (gamepad1.rightTriggerWasPressed()) {
                 blocker.unblock();
+                hood.startShot();
             }
 
             if (gamepad1.rightTriggerWasReleased()) {
                 blocker.block();
+                hood.endShot();
             }
 
             Pose turretPose = TurretKinematics.getTurretPose(drivetrain.follower.getPose());

@@ -10,9 +10,9 @@ import static com.pedropathing.ivy.commands.Commands.infinite;
 
 @Config
 public final class Flywheel {
-    public static double kP = 0.006;
-    public static double kS = 0.065;
-    public static double kV = 0.000326;
+    public static double kP = 0.004;
+    public static double kS = 0.2;
+    public static double kV = 0.000276;
     public static int velocityTolerance = 25;
     private final DcMotorEx flywheelMotorTop;
     private final DcMotorEx flywheelMotorBottom;
@@ -48,8 +48,11 @@ public final class Flywheel {
         flywheelMotorBottom.setPower(power);
     }
 
-    private double getVelocity() {
+    public double getVelocity() {
         return flywheelMotorBottom.getVelocity();
+    }
+    public double getTarget() {
+        return target;
     }
 
     public boolean atTarget() {

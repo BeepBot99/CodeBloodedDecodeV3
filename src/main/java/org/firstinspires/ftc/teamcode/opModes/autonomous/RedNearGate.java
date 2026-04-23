@@ -42,7 +42,7 @@ public class RedNearGate extends RobotOpMode {
     private Command shoot() {
         return sequential(
                 instant(blocker::unblock),
-                waitMs(1000),
+                waitMs(1200),
                 instant(blocker::block)
         );
     }
@@ -52,8 +52,9 @@ public class RedNearGate extends RobotOpMode {
         schedule(
                 sequential(
                         instant(flywheel::on),
-                        waitMs(500),
                         intake.on(),
+//                        waitUntil(() -> flywheel.getVelocity() >= flywheel.getTarget() * 0.75),
+                        waitUntil(flywheel::atTarget),
                         parallel(
                                 sequential(
                                         instant(() -> drivetrain.follower.setMaxPower(0.25)),
@@ -166,7 +167,7 @@ public class RedNearGate extends RobotOpMode {
                     .addPath(
                             new BezierLine(
                                     new Pose(80, 82),
-                                    new Pose(130.5, 58)
+                                    new Pose(130.5, 58.5)
                             )
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(-30), Math.toRadians(45))
@@ -175,7 +176,7 @@ public class RedNearGate extends RobotOpMode {
             toShoot = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    new Pose(130.5, 58),
+                                    new Pose(130.5, 58.5),
                                     new Pose(80, 82)
                             )
                     )

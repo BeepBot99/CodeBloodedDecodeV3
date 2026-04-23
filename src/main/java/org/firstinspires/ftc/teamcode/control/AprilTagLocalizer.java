@@ -33,10 +33,10 @@ public final class AprilTagLocalizer {
             180,
             0
     );
+    public static int latencyMs = 10;
     private final Context context;
     private final AprilTagProcessor processor;
     private final FusionLocalizer fusion;
-    public static int latencyMs = 50;
 
     public AprilTagLocalizer(Context context, Localizer localizer) {
         this.context = context;
@@ -44,7 +44,7 @@ public final class AprilTagLocalizer {
         fusion = new FusionLocalizer(
                 localizer,
                 new Pose(0.25, 0.25, Math.toRadians(2)),
-                new Pose(1.5 / 60, 1.5 / 60, Math.toRadians(0.5) / 60),
+                new Pose(1, 1, Math.toRadians(0.5) / 60),
                 new Pose(2.1561, 2.6065, 0.0248),
                 100
         );

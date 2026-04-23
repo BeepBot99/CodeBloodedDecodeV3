@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.acmerobotics.dashboard.config.Config;
 import com.pedropathing.ivy.Command;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.util.Context;
 
 import java.util.function.DoubleUnaryOperator;
@@ -11,10 +12,15 @@ import static com.pedropathing.ivy.commands.Commands.infinite;
 
 @Config
 public final class Hood {
+    public static double shotScalar = 0;
     public static double servoIncrement = 0.01;
-
+    public static double maximumDrop = 0;
+    public static double dropDelay = 0;
     private final Servo hoodServo;
     private final Context context;
+    private final ElapsedTime shotTimer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+    private double target = 0;
+    private boolean isShooting = false;
 
     public Hood(Context context) {
         this.context = context;
@@ -22,12 +28,21 @@ public final class Hood {
         hoodServo = context.servo("hood");
     }
 
+    public void startShot() {
+        isShooting = true;
+        shotTimer.reset();
+    }
+
+    public void endShot() {
+        isShooting = false;
+    }
+
     public double getPosition() {
-        return hoodServo.getPosition();
+        return target;
     }
 
     public void setPosition(double position) {
-        hoodServo.setPosition(position);
+        target = position;
     }
 
     public void setPosition(DoubleUnaryOperator setter) {
@@ -44,6 +59,8 @@ public final class Hood {
 
     public Command periodic() {
         return infinite(() -> {
+            setPosition(isShooting ? Math.min(target, Math.max(target - (shotTimer.seconds() - dropDelay) * shotScalar, target - maximumDrop)) : target);
+            hoodServo.setPosition(target);
             context.telemetry.addData("Hood/Position", getPosition());
         });
     }
