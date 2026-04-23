@@ -17,7 +17,6 @@ public final class Intake {
     public static double shortReverseTimeMs = 150;
     private final DcMotorEx intakeMotor;
     private final Context context;
-    private boolean slowMode = false;
     private Mode mode = Mode.OFF;
 
     public Intake(Context context) {
@@ -43,14 +42,6 @@ public final class Intake {
 
     public Command toggle() {
         return conditional(() -> mode == Mode.OFF, on(), off());
-    }
-
-    public void slowDown() {
-        slowMode = true;
-    }
-
-    public void speedUp() {
-        slowMode = false;
     }
 
     public Command periodic() {

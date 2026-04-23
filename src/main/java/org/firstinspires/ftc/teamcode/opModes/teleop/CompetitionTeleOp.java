@@ -35,6 +35,11 @@ public class CompetitionTeleOp extends RobotOpMode {
             else turret.on();
 
             if (Math.abs(gamepad1.right_stick_x) >= 0.1) drivetrain.unlockHeading();
+            else drivetrain.lockCurrentHeading();
+
+            if (Math.abs(gamepad1.left_stick_x) >= 0.1 || Math.abs(gamepad1.left_stick_y) >= 0.1 || Math.abs(gamepad1.right_stick_x) >= 0.1)
+                drivetrain.unlockPosition();
+            else drivetrain.lockCurrentPosition();
 
             drivetrain.arcadeDrive(
                     -gamepad1.left_stick_y,
@@ -49,12 +54,6 @@ public class CompetitionTeleOp extends RobotOpMode {
                     drivetrain.follower.getAngularVelocity(),
                     alliance()
             );
-
-            if (drivetrain.follower.getPose().getY() < 48 && gamepad1.right_trigger >= 0.1) {
-                intake.slowDown();
-            } else {
-                intake.speedUp();
-            }
 
             if (gamepad1.rightTriggerWasPressed()) {
                 blocker.unblock();
