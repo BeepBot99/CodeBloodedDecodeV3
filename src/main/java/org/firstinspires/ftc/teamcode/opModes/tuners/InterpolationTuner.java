@@ -51,8 +51,7 @@ public class InterpolationTuner extends RobotOpMode {
             Pose turretPose = TurretKinematics.getTurretPose(drivetrain.follower.getPose());
             context.addPose("Turret/current", turretPose);
 
-            if (gamepad1.rightBumperWasPressed()) intake.off().schedule();
-            if (gamepad1.rightBumperWasReleased()) intake.on().schedule();
+            if (gamepad1.rightBumperWasPressed()) intake.toggle().schedule();
             if (gamepad1.leftBumperWasPressed()) intake.shortReverse().schedule();
 
             if (gamepad1.triangleWasPressed()) flywheel.toggle();
