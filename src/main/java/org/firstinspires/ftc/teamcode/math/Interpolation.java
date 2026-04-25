@@ -12,17 +12,17 @@ public final class Interpolation {
             new double[]{41.8, 0, 0},
             new double[]{4.8, 0},
             new double[][]{
-                    {0, 0},
-                    {0, 0},
-                    {0, 0},
+                    {1650, 1680},
+                    {1710, 1770},
+                    {1760, 1800},
             });
     private static final Interpolation2D turretAngleFar = new BilinearInterpolation(
             new double[]{41.8, 0, 0},
             new double[]{4.8, 0},
             new double[][]{
-                    {0, 0},
-                    {0, 0},
-                    {0, 0},
+                    {78, 82},
+                    {76, 77},
+                    {67, 69},
             });
     private static final Interpolation2D airTimeFar = new BilinearInterpolation(
             new double[]{41.8, 0, 0},
@@ -36,38 +36,38 @@ public final class Interpolation {
             new double[]{41.8, 0, 0},
             new double[]{4.8, 0},
             new double[][]{
-                    {0, 0},
-                    {0, 0},
-                    {0, 0}
+                    {0.8, 0.8},
+                    {0.8, 0.8},
+                    {0.8, 0.8}
             });
     private static final Interpolation2D flywheelVelocityClose = new BilinearInterpolation(
             new double[]{99, 78, 55, 31},
             new double[]{135, 110, 85, 62},
             new double[][]{
-                    {1030, 1150, 1320, 1400},
-                    {1050, 1170, 1350, 1440},
-                    {1170, 1250, 1330, 1440},
-                    {1300, 1360, 0, 0},
+                    {1030, 1150, 1320, 1320},
+                    {1050, 1170, 1350, 1410},
+                    {1170, 1250, 1330, 1450},
+                    {1300, 1390, 1525, 1570},
             }
     );
     private static final Interpolation2D turretAngleClose = new BilinearInterpolation(
             new double[]{99, 78, 55, 31},
             new double[]{135, 110, 85, 62},
             new double[][]{
-                    {3.5, 5.7, 8.8, 8.5},
-                    {47.7, 29.9, 31.1, 23},
-                    {59.9, 54.8, 35.9, 29.9},
-                    {65.1, 57.8, 0, 0},
+                    {3.5, 45.7, 59.9, 65.1},
+                    {5.7, 29.9, 54.8, 61.6},
+                    {8.8, 31.8, 35.9, 62},
+                    {8.7, 15.4, 24.7, 62.4},
             }
     );
     private static final Interpolation2D airTimeClose = new BilinearInterpolation(
             new double[]{99, 78, 55, 31},
             new double[]{135, 110, 85, 62},
             new double[][]{
-                    {0.32, 0.38, 0.4, 0},
-                    {0.26, 0.38, 0.43, 0.48},
-                    {0.39, 0.33, 0.38, 0},
-                    {0.3, 0.3, 0, 0},
+                    {0.32, 0.38, 0.4, 0.42},
+                    {0.26, 0.38, 0.43, 0.4},
+                    {0.39, 0.33, 0.38, 0.44},
+                    {0.3, 0.3, 0.51, 0.46},
             }
     );
     private static final Interpolation2D hoodClose = new BilinearInterpolation(
@@ -75,12 +75,12 @@ public final class Interpolation {
             new double[]{135, 110, 85, 62},
             new double[][]{
                     {0.1, 0.5, 0.7, 0.7},
-                    {0.3, 0.5, 0.7, 0.7},
+                    {0.3, 0.5, 0.7, 0.8},
                     {0.5, 0.7, 0.7, 0.8},
-                    {0.7, 0.7, 0, 0},
+                    {0.7, 0.7, 0.8, 0.8},
             }
     );
-    public static double airTimeMultiplier = 1.6;
+    public static double airTimeMultiplier = 1.8;
 
     private static double interpolate(Interpolation2D closeInterpolation, Interpolation2D farInterpolation, Vector pose, Alliance alliance) {
         if (alliance == Alliance.BLUE) {

@@ -25,14 +25,14 @@ public class CompetitionTeleOp extends RobotOpMode {
     @Override
     public void start() {
         blocker.block();
-//        turret.on();
+        turret.on();
     }
 
     @Override
     public void loop() {
         wrapLoop(() -> {
-            if (drivetrain.follower.getPose().getY() < 48) turret.off();
-            else turret.on();
+//            if (drivetrain.follower.getPose().getY() < 48) turret.off();
+//            else turret.on();
 
             if (Math.abs(gamepad1.right_stick_x) >= 0.1) drivetrain.unlockHeading();
             else drivetrain.lockCurrentHeading();
