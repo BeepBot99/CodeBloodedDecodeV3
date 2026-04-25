@@ -44,43 +44,43 @@ public final class Interpolation {
             new double[]{99, 78, 55, 31},
             new double[]{135, 110, 85, 62},
             new double[][]{
-                    {1030, 1150, 1320, 1320},
-                    {1050, 1170, 1350, 1410},
-                    {1170, 1250, 1330, 1450},
-                    {1300, 1390, 1525, 1570},
+                    {1030, 1110, 1140, 1270},
+                    {1130, 1230, 1280, 1320},
+                    {1270, 1330, 1355, 1450},
+                    {1420, 1460, 1485, 1580},
             }
     );
     private static final Interpolation2D turretAngleClose = new BilinearInterpolation(
             new double[]{99, 78, 55, 31},
             new double[]{135, 110, 85, 62},
             new double[][]{
-                    {3.5, 45.7, 59.9, 65.1},
-                    {5.7, 29.9, 54.8, 61.6},
-                    {8.8, 31.8, 35.9, 62},
-                    {8.7, 15.4, 24.7, 62.4},
+                    {3.5, 33, 48, 59},
+                    {3.5, 27, 39, 52},
+                    {3, 20, 32, 41},
+                    {3, 12, 29.5, 33},
             }
     );
     private static final Interpolation2D airTimeClose = new BilinearInterpolation(
             new double[]{99, 78, 55, 31},
             new double[]{135, 110, 85, 62},
             new double[][]{
-                    {0.32, 0.38, 0.4, 0.42},
-                    {0.26, 0.38, 0.43, 0.4},
-                    {0.39, 0.33, 0.38, 0.44},
-                    {0.3, 0.3, 0.51, 0.46},
+                    {0.63, 0.56, 0.58, 0.68},
+                    {0.63, 0.53, 0.62, 0.73},
+                    {0.72, 0.68, 0.75, 0.72},
+                    {0.65, 0.84, 0.84, 0.85},
             }
     );
     private static final Interpolation2D hoodClose = new BilinearInterpolation(
             new double[]{99, 78, 55, 31},
             new double[]{135, 110, 85, 62},
             new double[][]{
-                    {0.1, 0.5, 0.7, 0.7},
-                    {0.3, 0.5, 0.7, 0.8},
-                    {0.5, 0.7, 0.7, 0.8},
-                    {0.7, 0.7, 0.8, 0.8},
+                    {0.15, 0.4, 0.6, 0.65},
+                    {0.4, 0.7, 0.7, 0.65},
+                    {0.6, 0.7, 0.65, 0.7},
+                    {0.85, 0.6, 0.725, 0.775},
             }
     );
-    public static double airTimeMultiplier = 1.8;
+    public static double airTimeMultiplier = 1;
 
     private static double interpolate(Interpolation2D closeInterpolation, Interpolation2D farInterpolation, Vector pose, Alliance alliance) {
         if (alliance == Alliance.BLUE) {
