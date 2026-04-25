@@ -79,4 +79,9 @@ public abstract class RobotOpMode extends OpMode {
         Scheduler.execute();
         context.telemetry.update();
     }
+
+    @Override
+    public void stop() {
+        drivetrain.close();
+    }
 }

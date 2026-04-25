@@ -9,36 +9,36 @@ import smile.interpolation.Interpolation2D;
 @Config("Interpolation")
 public final class Interpolation {
     private static final Interpolation2D flywheelVelocityFar = new BilinearInterpolation(
-            new double[]{41.8, 0, 0},
-            new double[]{4.8, 0},
+            new double[]{41.8, 71, 101.2},
+            new double[]{5, 29.3},
             new double[][]{
-                    {1650, 1680},
-                    {1710, 1770},
-                    {1760, 1800},
+                    {1750, 1620},
+                    {1660, 1570},
+                    {1575, 1440},
             });
     private static final Interpolation2D turretAngleFar = new BilinearInterpolation(
-            new double[]{41.8, 0, 0},
-            new double[]{4.8, 0},
+            new double[]{41.8, 71, 101.2},
+            new double[]{5, 29.3},
             new double[][]{
-                    {78, 82},
-                    {76, 77},
-                    {67, 69},
+                    {54, 49},
+                    {60, 61},
+                    {72, 71},
             });
     private static final Interpolation2D airTimeFar = new BilinearInterpolation(
-            new double[]{41.8, 0, 0},
-            new double[]{4.8, 0},
+            new double[]{41.8, 71, 101.2},
+            new double[]{5, 29.3},
             new double[][]{
-                    {0, 0},
-                    {0, 0},
-                    {0, 0}
+                    {1.00, 0.82},
+                    {0.92, 0.87},
+                    {0.93, 0}
             });
     private static final Interpolation2D hoodFar = new BilinearInterpolation(
-            new double[]{41.8, 0, 0},
-            new double[]{4.8, 0},
+            new double[]{41.8, 71, 101.2},
+            new double[]{5, 29.3},
             new double[][]{
-                    {0.8, 0.8},
-                    {0.8, 0.8},
-                    {0.8, 0.8}
+                    {0.75, 0.76},
+                    {0.75, 0.75},
+                    {0.75, 0.7}
             });
     private static final Interpolation2D flywheelVelocityClose = new BilinearInterpolation(
             new double[]{99, 78, 55, 31},

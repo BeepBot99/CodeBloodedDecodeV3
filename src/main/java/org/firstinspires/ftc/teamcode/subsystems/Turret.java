@@ -16,7 +16,7 @@ public final class Turret {
     private static final double TICKS_PER_REVOLUTION = 8192;
     public static double minimumAngleDegrees = -90;
     public static double incrementDegrees = 2.5;
-    public static PIDFCoefficients coefficients = new PIDFCoefficients(0.02, 0, 0.00085, 0);
+    public static PIDFCoefficients coefficients = new PIDFCoefficients(0.03, 0.0005, 0.0013, 0);
     private static double angleTransfer = 0;
     private final DcMotorEx turretMotor;
     private final Context context;

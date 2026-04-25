@@ -23,9 +23,9 @@ import static com.pedropathing.ivy.commands.Commands.infinite;
 import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 
 @Config
-public final class Drivetrain {
+public final class Drivetrain implements AutoCloseable {
     public static PIDFCoefficients headingCoefficients = new PIDFCoefficients(1.75, 0, 0.09, 0);
-    public static double gateOpenHeadingDegrees = 36.5;
+    public static double gateOpenHeadingDegrees = 25;
     private static Pose poseTransfer = new Pose();
     public final DcMotorEx frontLeft;
     public final DcMotorEx frontRight;
@@ -167,5 +167,10 @@ public final class Drivetrain {
             context.telemetry.addData("Drivetrain/heading locked", lockHeading);
             context.telemetry.addData("Drivetrain/heading target", headingTargetRadians);
         });
+    }
+
+    @Override
+    public void close() {
+        aprilTags.close();
     }
 }

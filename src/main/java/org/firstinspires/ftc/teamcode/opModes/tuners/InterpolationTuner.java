@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.util.RobotOpMode;
 public class InterpolationTuner extends RobotOpMode {
     public static double flywheelVelocity = 0;
     public static double hoodPosition = 0;
+    public static double turretAngle = 0;
 
     @Override
     public void init() {
@@ -23,6 +24,7 @@ public class InterpolationTuner extends RobotOpMode {
     @Override
     public void start() {
         blocker.block();
+        turret.on();
     }
 
     @Override
@@ -37,6 +39,7 @@ public class InterpolationTuner extends RobotOpMode {
 
             hood.setPosition(hoodPosition);
             flywheel.setTarget(flywheelVelocity);
+            turret.setTargetDegrees(turretAngle - Math.toDegrees(drivetrain.follower.getHeading()));
 
             if (gamepad1.rightTriggerWasPressed()) {
                 blocker.unblock();

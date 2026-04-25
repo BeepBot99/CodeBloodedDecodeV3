@@ -18,7 +18,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import java.util.List;
 
 @Config("AprilTags")
-public final class AprilTagLocalizer {
+public final class AprilTagLocalizer implements AutoCloseable {
     private static final Position cameraPosition = new Position(
             DistanceUnit.INCH,
             2.204,
@@ -37,6 +37,8 @@ public final class AprilTagLocalizer {
     private final Context context;
     private final AprilTagProcessor processor;
     private final FusionLocalizer fusion;
+    private final VisionPortal visionPortal;
+    public static double decisionMarginThreshold = 50;
 
     public AprilTagLocalizer(Context context, Localizer localizer) {
         this.context = context;
@@ -54,7 +56,7 @@ public final class AprilTagLocalizer {
                 .setLensIntrinsics(544.2876017217492, 543.8059217350639, 332.20336755183894, 248.65289514406953)
                 .build();
 
-        new VisionPortal.Builder()
+        visionPortal = new VisionPortal.Builder()
                 .setCamera(context.hardwareMap.get(WebcamName.class, "Webcam 1"))
                 .setCameraResolution(new Size(640, 480))
                 .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
@@ -73,6 +75,8 @@ public final class AprilTagLocalizer {
 
         for (AprilTagDetection detection : detections) {
             if (detection.metadata == null || detection.metadata.name.contains("Obelisk")) continue;
+            context.telemetry.addData("AprilTags/" + detection.metadata.name + " margin", detection.decisionMargin);
+            if (detection.decisionMargin <= decisionMarginThreshold) continue;
 
             Pose pose = new Pose(
                     detection.robotPose.getPosition().y + 72,
@@ -84,5 +88,10 @@ public final class AprilTagLocalizer {
 
             fusion.addMeasurement(pose, System.nanoTime() - latencyMs * 1_000_000L);
         }
+    }
+
+    @Override
+    public void close() {
+        visionPortal.close();
     }
 }
