@@ -30,7 +30,7 @@ public final class Interpolation {
             new double[][]{
                     {1.00, 0.82},
                     {0.92, 0.87},
-                    {0.93, 0}
+                    {0.93, 0.84}
             });
     private static final Interpolation2D hoodFar = new BilinearInterpolation(
             new double[]{41.8, 71, 101.2},
