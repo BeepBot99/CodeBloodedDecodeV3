@@ -6,7 +6,6 @@ import org.firstinspires.ftc.teamcode.util.Alliance;
 import smile.interpolation.BilinearInterpolation;
 import smile.interpolation.Interpolation2D;
 
-@Config("Interpolation")
 public final class Interpolation {
     private static final Interpolation2D flywheelVelocityFar = new BilinearInterpolation(
             new double[]{41.8, 71, 101.2},
@@ -80,17 +79,19 @@ public final class Interpolation {
                     {0.85, 0.6, 0.725, 0.775},
             }
     );
-    public static double airTimeMultiplier = 1;
 
     private static double interpolate(Interpolation2D closeInterpolation, Interpolation2D farInterpolation, Vector pose, Alliance alliance) {
+        final Vector newPose;
         if (alliance == Alliance.BLUE) {
-            pose = new Vector();
-            pose.setOrthogonalComponents(141.5 - pose.getXComponent(), pose.getYComponent());
-        }
-        if (pose.getYComponent() > 48) {
-            return closeInterpolation.interpolate(pose.getXComponent(), pose.getYComponent());
+            newPose = new Vector();
+            newPose.setOrthogonalComponents(141.5 - pose.getXComponent(), pose.getYComponent());
         } else {
-            return farInterpolation.interpolate(pose.getXComponent(), pose.getYComponent());
+            newPose = pose;
+        }
+        if (newPose.getYComponent() > 48) {
+            return closeInterpolation.interpolate(newPose.getXComponent(), newPose.getYComponent());
+        } else {
+            return farInterpolation.interpolate(newPose.getXComponent(), newPose.getYComponent());
         }
     }
 
@@ -105,7 +106,7 @@ public final class Interpolation {
     }
 
     public static double getAirTime(Vector pose, Alliance alliance) {
-        return interpolate(airTimeClose, airTimeFar, pose, alliance) * airTimeMultiplier;
+        return interpolate(airTimeClose, airTimeFar, pose, alliance);
     }
 
     public static double getHood(Vector pose, Alliance alliance) {

@@ -71,7 +71,7 @@ public final class AprilTagLocalizer implements AutoCloseable {
     public void update() {
         List<AprilTagDetection> detections = processor.getDetections();
 
-        context.telemetry.addData("AprilTags/Detections", detections.size());
+        context.telemetry.addData("AprilTags/detections", detections.size());
 
         for (AprilTagDetection detection : detections) {
             if (detection.metadata == null || detection.metadata.name.contains("Obelisk")) continue;

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.pedropathing.ivy.Command;
+import com.pedropathing.ivy.behaviors.ConflictBehavior;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.util.Context;
@@ -37,7 +38,7 @@ public final class Intake {
     }
 
     public Command shortReverse() {
-        return reverse().then(waitMs(shortReverseTimeMs)).then(on());
+        return reverse().then(waitMs(shortReverseTimeMs)).then(on()).setConflictBehavior(ConflictBehavior.OVERRIDE);
     }
 
     public Command toggle() {
@@ -62,6 +63,10 @@ public final class Intake {
             context.telemetry.addData("Intake/velocity", intakeMotor.getVelocity());
             context.telemetry.addData("Intake/power", intakeMotor.getPower());
         });
+    }
+
+    public double getCurrent() {
+        return intakeMotor.getCurrent(CurrentUnit.AMPS);
     }
 
     enum Mode {

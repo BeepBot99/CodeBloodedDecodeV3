@@ -18,6 +18,7 @@ public abstract class RobotOpMode extends OpMode {
     protected Flywheel flywheel;
     protected Intake intake;
     protected Hood hood;
+    protected ArtifactSensor artifactSensor;
     protected Context context;
 
     protected static Alliance alliance() {
@@ -42,6 +43,7 @@ public abstract class RobotOpMode extends OpMode {
         flywheel = new Flywheel(context);
         intake = new Intake(context);
         hood = new Hood(context);
+        artifactSensor = new ArtifactSensor(context);
 
         schedule(
                 blocker.periodic(),
@@ -49,7 +51,8 @@ public abstract class RobotOpMode extends OpMode {
                 turret.periodic(),
                 flywheel.periodic(),
                 intake.periodic(),
-                hood.periodic()
+                hood.periodic(),
+                artifactSensor.periodic()
         );
 
         hubs = hardwareMap.getAll(LynxModule.class);
@@ -72,6 +75,7 @@ public abstract class RobotOpMode extends OpMode {
         loopTimer.reset();
         hubs.forEach(LynxModule::clearBulkCache);
         drivetrain.update();
+        artifactSensor.update();
         context.telemetry.addData("Robot/alliance", alliance());
 
         runnable.run();

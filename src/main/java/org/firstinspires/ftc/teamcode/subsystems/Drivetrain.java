@@ -20,7 +20,6 @@ import org.firstinspires.ftc.teamcode.util.Alliance;
 import org.firstinspires.ftc.teamcode.util.Context;
 
 import static com.pedropathing.ivy.commands.Commands.infinite;
-import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 
 @Config
 public final class Drivetrain implements AutoCloseable {
@@ -151,7 +150,15 @@ public final class Drivetrain implements AutoCloseable {
     }
 
     public Command followPath(PathChain path) {
-        return follow(follower, path);
+        return Command.build()
+                .setStart(() -> follower.followPath(path))
+                .setDone(() -> !follower.isBusy() || (follower.getVelocity().dot(follower.getClosestPointTangentVector().normalize()) < follower.getCurrentPath().getPathEndVelocityConstraint()) && follower.getPose().distanceFrom(follower.getCurrentPathChain().endPoint()) < 4);
+    }
+
+    public Command followPathSotm(PathChain path) {
+        return Command.build()
+                .setStart(() -> follower.followPath(path))
+                .setDone(() -> follower.getCurrentTValue() > 0.95);
     }
 
     public void update() {

@@ -16,7 +16,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants()
             .predictiveBrakingCoefficients(new PredictiveBrakingCoefficients(0.28, 0.09533276, 0.0014846306))
-            .headingPIDFCoefficients(new PIDFCoefficients(2.6, 0, 0.22, 0.02))
+            .headingPIDFCoefficients(new PIDFCoefficients(1.2543, 0, 0.1896, 0))
+            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(0.5575, 0, 0.0993, 0))
             .centripetalScaling(0);
 
     public static MecanumConstants driveConstants = new MecanumConstants()

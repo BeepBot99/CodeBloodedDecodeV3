@@ -13,7 +13,7 @@ public class BlueNear extends LinearOpMode {
     @Override
     public void runOpMode() {
         Turret.localize(0);
-        Drivetrain.localize(new Pose(118, 123, Math.toRadians(36.5)).mirror());
+        Drivetrain.localize(new Pose(116, 127.5, Math.toRadians(-142.5)).mirror());
         RobotOpMode.setAlliance(Alliance.BLUE);
     }
 }
