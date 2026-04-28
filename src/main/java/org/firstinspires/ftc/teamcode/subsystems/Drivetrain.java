@@ -24,7 +24,7 @@ import static com.pedropathing.ivy.commands.Commands.infinite;
 @Config
 public final class Drivetrain implements AutoCloseable {
     public static PIDFCoefficients headingCoefficients = new PIDFCoefficients(1.75, 0, 0.09, 0);
-    public static double gateOpenHeadingDegrees = 25;
+    public static double gateOpenHeadingDegrees = 22;
     private static Pose poseTransfer = new Pose();
     public final DcMotorEx frontLeft;
     public final DcMotorEx frontRight;
@@ -133,8 +133,10 @@ public final class Drivetrain implements AutoCloseable {
         if (lockPosition) {
             Vector robotVelocity = follower.getVelocity();
             robotVelocity.rotateVector(-follower.getHeading());
-            if (Math.signum(x) != Math.signum(robotVelocity.getXComponent())) x = Math.signum(x) * 0.2;
-            if (Math.signum(y) != Math.signum(robotVelocity.getYComponent())) y = Math.signum(y) * 0.2;
+            if (Math.signum(x) != Math.signum(robotVelocity.getXComponent()))
+                x = Math.signum(x) * Math.max(Math.abs(robotVelocity.getXComponent()), 0.2);
+            if (Math.signum(y) != Math.signum(robotVelocity.getYComponent()))
+                y = Math.signum(y) * Math.max(Math.abs(robotVelocity.getYComponent()), 0.2);
         }
 
         double denominator = Math.max(Math.abs(x) + Math.abs(y) + Math.abs(turn), 1);

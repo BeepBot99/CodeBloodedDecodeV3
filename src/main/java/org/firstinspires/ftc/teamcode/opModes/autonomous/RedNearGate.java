@@ -45,7 +45,7 @@ public class RedNearGate extends RobotOpMode {
     private Command shoot() {
         return sequential(
                 instant(blocker::unblock),
-                waitMs(1500),
+                waitMs(2000),
                 instant(blocker::block)
         );
     }
@@ -59,51 +59,54 @@ public class RedNearGate extends RobotOpMode {
                         instant(flywheel::on),
                         waitUntil(() -> flywheel.getVelocity() >= flywheel.getTarget() * 0.5),
                         instant(() -> sequential(
-                                waitUntil(() -> drivetrain.follower.getCurrentTValue() > 0.85),
+                               waitUntil(() -> drivetrain.follower.getCurrentTValue() > 0.85),
                                 shoot(),
                                 instant(() -> drivetrain.follower.setMaxPower(1))
                         ).schedule()),
                         drivetrain.followPathSotm(paths.toFirstShoot),
-                        waitMs(250),
                         drivetrain.followPath(paths.intakeFirstRow),
 //                        prepareToShoot(paths.toSecondShoot),
 //                        instant(() -> sotm = false),
-                        instant(() -> sequential(
-                                waitUntil(() -> drivetrain.follower.getCurrentTValue() > 0.85),
-                                shoot(),
-                                instant(() -> drivetrain.follower.setMaxPower(1))
-                        ).schedule()),
-                        drivetrain.followPathSotm(paths.toSecondShoot),
-                        waitMs(250),
+                        parallel(
+                                drivetrain.followPathSotm(paths.toSecondShoot),
+                                sequential(
+                                        waitUntil(() -> drivetrain.follower.getCurrentTValue() > 0.85),
+                                        shoot()
+                                )
+                        ),
+                        instant(() -> drivetrain.follower.setMaxPower(1)),
                         drivetrain.followPathSotm(paths.intakeSecondRow1),
                         instant(() -> drivetrain.follower.setMaxPower(0.8)),
-                        drivetrain.followPath(paths.intakeSecondRow2),
+                        drivetrain.followPathSotm(paths.intakeSecondRow2),
                         instant(() -> drivetrain.follower.setMaxPower(1)),
 //                        prepareToShoot(paths.toThirdShoot),
-                        instant(() -> sequential(
-                                waitUntil(() -> drivetrain.follower.getCurrentTValue() > 0.85),
-                                shoot(),
-                                instant(() -> drivetrain.follower.setMaxPower(1))
-                        ).schedule()),
-                        drivetrain.followPathSotm(paths.toThirdShoot),
-                        waitMs(250),
+                        parallel(
+                                drivetrain.followPathSotm(paths.toThirdShoot),
+                                sequential(
+                                        waitUntil(() -> drivetrain.follower.getCurrentTValue() > 0.85),
+                                        shoot()
+                                )
+                        ),
+                        instant(() -> drivetrain.follower.setMaxPower(1)),
                         repeat(
                                 sequential(
                                         drivetrain.followPath(paths.toGateIntake),
                                         race(
                                                 waitUntil(artifactSensor::hasThree),
-                                                waitMs(3000)
+                                                waitMs(1100)
                                         ),
 //                                        prepareToShoot(paths.toShoot),
-                                        instant(() -> sequential(
-                                                waitUntil(() -> drivetrain.follower.getCurrentTValue() > 0.85),
-                                                shoot(),
-                                                instant(() -> drivetrain.follower.setMaxPower(1))
-                                        ).schedule()),
-                                        drivetrain.followPathSotm(paths.toShoot),
+                                        parallel(
+                                                drivetrain.followPathSotm(paths.toShoot),
+                                                sequential(
+                                                        waitUntil(() -> drivetrain.follower.getCurrentTValue() > 0.85),
+                                                        shoot()
+                                                )
+                                        ),
+                                        instant(() -> drivetrain.follower.setMaxPower(1)),
                                         waitMs(250)
                                 ),
-                                4
+                                3
                         ),
                         instant(flywheel::off),
                         intake.off()
@@ -148,7 +151,7 @@ public class RedNearGate extends RobotOpMode {
                             )
                     )
                     .setTangentHeadingInterpolation()
-                    .addParametricCallback(0.7, () -> follower.setMaxPower(0.5))
+                    .addParametricCallback(0.7, () -> follower.setMaxPower(0.4))
                     .build();
 
             intakeFirstRow = follower.pathBuilder()
@@ -172,7 +175,7 @@ public class RedNearGate extends RobotOpMode {
                             )
                     )
                     .setConstantHeadingInterpolation(0)
-                    .addParametricCallback(0.65, () -> follower.setMaxPower(0.5))
+                    .addParametricCallback(0.65, () -> follower.setMaxPower(0.4))
                     .build();
 
             intakeSecondRow1 = follower.pathBuilder()
@@ -189,7 +192,7 @@ public class RedNearGate extends RobotOpMode {
                     .addPath(
                             new BezierLine(
                                     new Pose(103.5, 55.5),
-                                    new Pose(122, 55.5)
+                                    new Pose(122, 58)
                             )
                     )
                     .setConstantHeadingInterpolation(0)
@@ -198,19 +201,19 @@ public class RedNearGate extends RobotOpMode {
             toThirdShoot = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    new Pose(122, 55.5),
+                                    new Pose(122, 58),
                                     new Pose(80, 82)
                             )
                     )
                     .setConstantHeadingInterpolation(Math.toRadians(-30))
-                    .addParametricCallback(0.65, () -> follower.setMaxPower(0.5))
+                    .addParametricCallback(0.65, () -> follower.setMaxPower(0.4))
                     .build();
 
             toGateIntake = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
                                     new Pose(80, 82),
-                                    new Pose(129.5, 57)
+                                    new Pose(129.5, 57.5)
                             )
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(-30), Math.toRadians(22))
@@ -221,7 +224,7 @@ public class RedNearGate extends RobotOpMode {
             toShoot = follower.pathBuilder()
                     .addPath(
                             new BezierCurve(
-                                    new Pose(129.5, 57),
+                                    new Pose(129.5, 57.5),
                                     new Pose(125, 50),
                                     new Pose(80, 82)
                             )

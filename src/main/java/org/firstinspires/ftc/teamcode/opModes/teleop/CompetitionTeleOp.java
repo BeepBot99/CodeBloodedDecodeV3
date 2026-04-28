@@ -34,9 +34,9 @@ public class CompetitionTeleOp extends RobotOpMode {
 //            if (drivetrain.follower.getPose().getY() < 48) turret.off();
 //            else turret.on();
 
-            if (Math.abs(gamepad1.right_stick_x) >= 0.1) drivetrain.unlockHeading();
-            else drivetrain.lockCurrentHeading();
-
+//            if (Math.abs(gamepad1.right_stick_x) >= 0.1) drivetrain.unlockHeading();
+//            else drivetrain.lockCurrentHeading();
+//
 //            if (Math.abs(gamepad1.left_stick_x) >= 0.1 || Math.abs(gamepad1.left_stick_y) >= 0.1 || Math.abs(gamepad1.right_stick_x) >= 0.1)
 //                drivetrain.unlockPosition();
 //            else drivetrain.lockCurrentPosition();
