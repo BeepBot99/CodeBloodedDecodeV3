@@ -207,7 +207,7 @@ public class BlueNearGate extends RobotOpMode {
                                     createPose(122, 58)
                             )
                     )
-                    .setConstantHeadingInterpolation(0)
+                    .setConstantHeadingInterpolation(Math.PI)
                     .build();
 
             toThirdShoot = follower.pathBuilder()

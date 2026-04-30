@@ -7,8 +7,10 @@ import com.pedropathing.control.PredictiveBrakingController;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.ftc.FollowerBuilder;
 import com.pedropathing.ftc.localization.localizers.PinpointLocalizer;
+import com.pedropathing.geometry.BezierPoint;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.ivy.Command;
+import com.pedropathing.ivy.behaviors.EndCondition;
 import com.pedropathing.math.Vector;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -41,6 +43,7 @@ public final class Drivetrain implements AutoCloseable {
     private boolean lockPosition = false;
     private double positionTargetX = 0;
     private double positionTargetY = 0;
+    private boolean pathFollowing = false;
 
     public Drivetrain(Context context) {
         this.context = context;
@@ -105,7 +108,34 @@ public final class Drivetrain implements AutoCloseable {
         lockPosition = false;
     }
 
+    public void gateIntake(Alliance alliance) {
+        final PathChain path;
+        if (alliance == Alliance.RED) {
+            path = follower.pathBuilder()
+                    .addPath(
+                            new BezierPoint(129.5, 57.5)
+                    )
+                    .setConstantHeadingInterpolation(Math.toRadians(22))
+                    .build();
+        } else {
+            path = follower.pathBuilder()
+                    .addPath(
+                            new BezierPoint(new Pose(129.5, 57.5).mirror())
+                    )
+                    .setConstantHeadingInterpolation(Math.PI - Math.toRadians(22))
+                    .build();
+        }
+        followPath(path).schedule();
+    }
+
     public void arcadeDrive(double forward, double strafe, double turn, Alliance alliance) {
+        if (pathFollowing && (Math.abs(forward) >= 0.1 || Math.abs(strafe) >= 0.1 || Math.abs(turn) >= 0.1)) {
+            follower.breakFollowing();
+            pathFollowing = false;
+        }
+
+        if (pathFollowing) return;
+
         double headingRadians = follower.getHeading();
 
         if (lockPosition) {
@@ -153,14 +183,25 @@ public final class Drivetrain implements AutoCloseable {
 
     public Command followPath(PathChain path) {
         return Command.build()
-                .setStart(() -> follower.followPath(path))
-                .setDone(() -> !follower.isBusy() || (follower.getVelocity().dot(follower.getClosestPointTangentVector().normalize()) < follower.getCurrentPath().getPathEndVelocityConstraint()) && follower.getPose().distanceFrom(follower.getCurrentPathChain().endPoint()) < 4);
+                .setStart(() -> {
+                    follower.followPath(path);
+                    pathFollowing = true;
+                })
+                .setDone(() -> !follower.isBusy() || (follower.getVelocity().dot(follower.getClosestPointTangentVector().normalize()) < follower.getCurrentPath().getPathEndVelocityConstraint()) && follower.getPose().distanceFrom(follower.getCurrentPathChain().endPoint()) < 4)
+                .setEnd(endCondition -> {
+                    if (endCondition == EndCondition.INTERRUPTED) follower.breakFollowing();
+                    pathFollowing = false;
+                });
     }
 
     public Command followPathSotm(PathChain path) {
         return Command.build()
-                .setStart(() -> follower.followPath(path))
-                .setDone(() -> follower.getCurrentTValue() > 0.95);
+                .setStart(() -> {
+                    follower.followPath(path);
+                    pathFollowing = true;
+                })
+                .setDone(() -> follower.getCurrentTValue() > 0.95)
+                .setEnd(endCondition -> pathFollowing = false);
     }
 
     public void update() {
