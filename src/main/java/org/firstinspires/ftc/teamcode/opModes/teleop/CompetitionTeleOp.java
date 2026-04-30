@@ -78,7 +78,7 @@ public class CompetitionTeleOp extends RobotOpMode {
             if (gamepad1.triangleWasPressed()) flywheel.toggle();
 
             if (gamepad1.squareWasPressed()) drivetrain.gateHeading(alliance());
-            if (gamepad1.crossWasPressed()) drivetrain.gateIntake(alliance());
+//            if (gamepad1.crossWasPressed()) drivetrain.gateIntake(alliance());
 
             if (gamepad2.leftBumperWasPressed()) setAlliance(Alliance.RED);
             if (gamepad2.rightBumperWasPressed()) setAlliance(Alliance.BLUE);

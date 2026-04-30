@@ -110,8 +110,23 @@ public class RedNearGate extends RobotOpMode {
                                         instant(() -> drivetrain.follower.setMaxPower(1)),
                                         waitMs(250)
                                 ),
-                                3
+                                2
                         ),
+                        drivetrain.followPath(paths.toGateIntake),
+                        race(
+                                waitUntil(artifactSensor::hasThree),
+                                waitMs(1100)
+                        ),
+//                                        prepareToShoot(paths.toShoot),
+                        parallel(
+                                drivetrain.followPathSotm(paths.toLastShoot),
+                                sequential(
+                                        waitUntil(() -> drivetrain.follower.getCurrentTValue() > 0.85),
+                                        shoot()
+                                )
+                        ),
+                        instant(() -> drivetrain.follower.setMaxPower(1)),
+                        waitMs(250),
                         instant(flywheel::off),
                         intake.off()
                 )
@@ -145,6 +160,7 @@ public class RedNearGate extends RobotOpMode {
         public final PathChain toThirdShoot;
         public final PathChain toGateIntake;
         public final PathChain toShoot;
+        public final PathChain toLastShoot;
 
         public Paths(Follower follower) {
             toFirstShoot = follower.pathBuilder()
@@ -231,6 +247,18 @@ public class RedNearGate extends RobotOpMode {
                                     new Pose(129.5, 57.5),
                                     new Pose(125, 50),
                                     new Pose(80, 82)
+                            )
+                    )
+                    .setConstantHeadingInterpolation(Math.toRadians(-30))
+                    .addParametricCallback(0.6, () -> follower.setMaxPower(0.4))
+                    .build();
+
+            toLastShoot = follower.pathBuilder()
+                    .addPath(
+                            new BezierCurve(
+                                    new Pose(129.5, 57.5),
+                                    new Pose(125, 50),
+                                    new Pose(90, 118)
                             )
                     )
                     .setConstantHeadingInterpolation(Math.toRadians(-30))

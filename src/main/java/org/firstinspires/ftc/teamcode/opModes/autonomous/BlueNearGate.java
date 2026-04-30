@@ -25,6 +25,14 @@ public class BlueNearGate extends RobotOpMode {
     private Pose shootingLocation;
     private boolean sotm = true;
 
+    private static Pose createPose(double x, double y, double heading) {
+        return new Pose(x, y, heading).mirror();
+    }
+
+    private static Pose createPose(double x, double y) {
+        return createPose(x, y, 0);
+    }
+
     @Override
     public void init() {
         super.init();
@@ -44,14 +52,6 @@ public class BlueNearGate extends RobotOpMode {
         );
 
         setAlliance(Alliance.BLUE);
-    }
-
-    private static Pose createPose(double x, double y, double heading) {
-        return new Pose(x, y, heading).mirror();
-    }
-
-    private static Pose createPose(double x, double y) {
-        return createPose(x, y, 0);
     }
 
     private Command shoot() {
@@ -118,8 +118,23 @@ public class BlueNearGate extends RobotOpMode {
                                         instant(() -> drivetrain.follower.setMaxPower(1)),
                                         waitMs(250)
                                 ),
-                                3
+                                2
                         ),
+                        drivetrain.followPath(paths.toGateIntake),
+                        race(
+                                waitUntil(artifactSensor::hasThree),
+                                waitMs(1100)
+                        ),
+//                                        prepareToShoot(paths.toShoot),
+                        parallel(
+                                drivetrain.followPathSotm(paths.toLastShoot),
+                                sequential(
+                                        waitUntil(() -> drivetrain.follower.getCurrentTValue() > 0.85),
+                                        shoot()
+                                )
+                        ),
+                        instant(() -> drivetrain.follower.setMaxPower(1)),
+                        waitMs(250),
                         instant(flywheel::off),
                         intake.off()
                 )
@@ -153,6 +168,7 @@ public class BlueNearGate extends RobotOpMode {
         public final PathChain toThirdShoot;
         public final PathChain toGateIntake;
         public final PathChain toShoot;
+        public final PathChain toLastShoot;
 
         public Paths(Follower follower) {
             toFirstShoot = follower.pathBuilder()
@@ -204,7 +220,7 @@ public class BlueNearGate extends RobotOpMode {
                     .addPath(
                             new BezierLine(
                                     createPose(103.5, 55.5),
-                                    createPose(122, 58)
+                                    createPose(122, 59)
                             )
                     )
                     .setConstantHeadingInterpolation(Math.PI)
@@ -213,7 +229,7 @@ public class BlueNearGate extends RobotOpMode {
             toThirdShoot = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    createPose(122, 58),
+                                    createPose(122, 59),
                                     createPose(80, 82)
                             )
                     )
@@ -225,7 +241,7 @@ public class BlueNearGate extends RobotOpMode {
                     .addPath(
                             new BezierLine(
                                     createPose(80, 82),
-                                    createPose(129.5, 57.5)
+                                    createPose(129.5, 58.5)
                             )
                     )
                     .setLinearHeadingInterpolation(Math.PI - Math.toRadians(-30), Math.PI - Math.toRadians(22))
@@ -236,9 +252,21 @@ public class BlueNearGate extends RobotOpMode {
             toShoot = follower.pathBuilder()
                     .addPath(
                             new BezierCurve(
-                                    createPose(129.5, 57.5),
+                                    createPose(129.5, 58.5),
                                     createPose(125, 50),
                                     createPose(80, 82)
+                            )
+                    )
+                    .setConstantHeadingInterpolation(Math.PI - Math.toRadians(-30))
+                    .addParametricCallback(0.6, () -> follower.setMaxPower(0.4))
+                    .build();
+
+            toLastShoot = follower.pathBuilder()
+                    .addPath(
+                            new BezierCurve(
+                                    createPose(129.5, 57.5),
+                                    createPose(125, 50),
+                                    createPose(90, 118)
                             )
                     )
                     .setConstantHeadingInterpolation(Math.PI - Math.toRadians(-30))
