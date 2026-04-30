@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.util.RobotOpMode;
 public class InterpolationTuner extends RobotOpMode {
     public static double flywheelVelocity = 0;
     public static double hoodPosition = 0;
-    public static double turretAngle = 0;
+    public static double turretAngle = 90;
 
     @Override
     public void init() {
@@ -19,6 +19,7 @@ public class InterpolationTuner extends RobotOpMode {
 
         drivetrain.usePreviousStartingPose();
         turret.usePreviousStartingAngle();
+        hood.enable();
     }
 
     @Override

@@ -19,6 +19,7 @@ public final class Hood {
     private final Servo hoodServo;
     private final Context context;
     private final ElapsedTime shotTimer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+    private boolean enabled = true;
     private double target = 0;
     private boolean isShooting = false;
 
@@ -26,6 +27,14 @@ public final class Hood {
         this.context = context;
 
         hoodServo = context.servo("hood");
+    }
+
+    public void enable() {
+        enabled = true;
+    }
+
+    public void disable() {
+        enabled = false;
     }
 
     public void startShot() {
@@ -60,7 +69,7 @@ public final class Hood {
     public Command periodic() {
         return infinite(() -> {
             setPosition(isShooting ? Math.min(target, Math.max(target - (shotTimer.seconds() - dropDelay) * shotScalar, target - maximumDrop)) : target);
-            hoodServo.setPosition(target);
+            if (enabled) hoodServo.setPosition(target);
             context.telemetry.addData("Hood/Position", getPosition());
         });
     }

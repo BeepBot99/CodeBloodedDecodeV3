@@ -16,6 +16,8 @@ public class CompetitionTeleOp extends RobotOpMode {
     public void init() {
         super.init();
 
+        hood.disable();
+
         drivetrain.usePreviousStartingPose();
         turret.usePreviousStartingAngle();
         blocker.block();
@@ -26,6 +28,7 @@ public class CompetitionTeleOp extends RobotOpMode {
     public void start() {
         blocker.block();
         turret.on();
+        hood.enable();
     }
 
     @Override
@@ -34,12 +37,17 @@ public class CompetitionTeleOp extends RobotOpMode {
 //            if (drivetrain.follower.getPose().getY() < 48) turret.off();
 //            else turret.on();
 
-//            if (Math.abs(gamepad1.right_stick_x) >= 0.1) drivetrain.unlockHeading();
+            if (Math.abs(gamepad1.right_stick_x) >= 0.1) drivetrain.unlockHeading();
 //            else drivetrain.lockCurrentHeading();
 //
 //            if (Math.abs(gamepad1.left_stick_x) >= 0.1 || Math.abs(gamepad1.left_stick_y) >= 0.1 || Math.abs(gamepad1.right_stick_x) >= 0.1)
 //                drivetrain.unlockPosition();
 //            else drivetrain.lockCurrentPosition();
+
+            if (artifactSensor.hasThree()) {
+                gamepad1.rumble(30);
+                gamepad2.rumble(30);
+            }
 
             drivetrain.arcadeDrive(
                     -gamepad1.left_stick_y,
