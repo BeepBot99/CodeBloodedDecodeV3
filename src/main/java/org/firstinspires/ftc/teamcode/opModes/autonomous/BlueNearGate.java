@@ -57,7 +57,7 @@ public class BlueNearGate extends RobotOpMode {
     private Command shoot() {
         return sequential(
                 instant(blocker::unblock),
-                waitMs(2000),
+                waitMs(1500),
                 instant(blocker::block)
         );
     }
@@ -179,15 +179,15 @@ public class BlueNearGate extends RobotOpMode {
                             )
                     )
                     .setTangentHeadingInterpolation()
-                    .addParametricCallback(0.7, () -> follower.setMaxPower(0.4))
+                    .addParametricCallback(0.7, () -> follower.setMaxPower(0.5))
                     .build();
 
             intakeFirstRow = follower.pathBuilder()
                     .addPath(
                             new BezierCurve(
                                     createPose(104, 116),
-                                    createPose(81, 82),
-                                    createPose(122, 82)
+                                    createPose(81, 81),
+                                    createPose(122, 81)
                             )
                     )
                     .setTangentHeadingInterpolation()
@@ -210,7 +210,7 @@ public class BlueNearGate extends RobotOpMode {
                     .addPath(
                             new BezierLine(
                                     createPose(80, 82),
-                                    createPose(103.5, 55.5)
+                                    createPose(103.5, 60)
                             )
                     )
                     .setLinearHeadingInterpolation(Math.PI - Math.toRadians(-50), Math.PI)
@@ -219,8 +219,8 @@ public class BlueNearGate extends RobotOpMode {
             intakeSecondRow2 = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    createPose(103.5, 55.5),
-                                    createPose(122, 59)
+                                    createPose(103.5, 60),
+                                    createPose(122, 60)
                             )
                     )
                     .setConstantHeadingInterpolation(Math.PI)
@@ -229,7 +229,7 @@ public class BlueNearGate extends RobotOpMode {
             toThirdShoot = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    createPose(122, 59),
+                                    createPose(122, 60),
                                     createPose(80, 82)
                             )
                     )
@@ -241,7 +241,7 @@ public class BlueNearGate extends RobotOpMode {
                     .addPath(
                             new BezierLine(
                                     createPose(80, 82),
-                                    createPose(129.5, 58.5)
+                                    createPose(128.25, 58.65)
                             )
                     )
                     .setLinearHeadingInterpolation(Math.PI - Math.toRadians(-30), Math.PI - Math.toRadians(22))
@@ -270,7 +270,7 @@ public class BlueNearGate extends RobotOpMode {
                             )
                     )
                     .setConstantHeadingInterpolation(Math.PI - Math.toRadians(-30))
-                    .addParametricCallback(0.6, () -> follower.setMaxPower(0.4))
+                    .addParametricCallback(0.6, () -> follower.setMaxPower(0.5))
                     .build();
         }
     }

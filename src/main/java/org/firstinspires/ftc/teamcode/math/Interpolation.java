@@ -21,7 +21,7 @@ public final class Interpolation {
             new double[][]{
                     {54, 49},
                     {60, 61},
-                    {74, 71},
+                    {72, 71},
             });
     private static final Interpolation2D airTimeFar = new BilinearInterpolation(
             new double[]{41.8, 71, 101.2},
@@ -55,7 +55,7 @@ public final class Interpolation {
             new double[][]{
                     {3.5, 33, 49.5, 59},
                     {3.5, 27, 39, 52},
-                    {3, 21, 32, 41},
+                    {3, 20, 32, 41},
                     {3, 12, 29.5, 33},
             }
     );

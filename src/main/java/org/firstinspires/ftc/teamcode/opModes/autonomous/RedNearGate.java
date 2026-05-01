@@ -49,7 +49,7 @@ public class RedNearGate extends RobotOpMode {
     private Command shoot() {
         return sequential(
                 instant(blocker::unblock),
-                waitMs(2000),
+                waitMs(1700),
                 instant(blocker::block)
         );
     }
@@ -202,7 +202,7 @@ public class RedNearGate extends RobotOpMode {
                     .addPath(
                             new BezierLine(
                                     new Pose(80, 82),
-                                    new Pose(103.5, 55.5)
+                                    new Pose(103.5, 59)
                             )
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(-50), 0)
@@ -211,8 +211,8 @@ public class RedNearGate extends RobotOpMode {
             intakeSecondRow2 = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    new Pose(103.5, 55.5),
-                                    new Pose(122, 58)
+                                    new Pose(103.5, 59),
+                                    new Pose(122, 59)
                             )
                     )
                     .setConstantHeadingInterpolation(0)
@@ -221,7 +221,7 @@ public class RedNearGate extends RobotOpMode {
             toThirdShoot = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    new Pose(122, 58),
+                                    new Pose(122, 59),
                                     new Pose(80, 82)
                             )
                     )
