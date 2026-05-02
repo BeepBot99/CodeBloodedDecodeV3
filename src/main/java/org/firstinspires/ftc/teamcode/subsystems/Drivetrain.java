@@ -171,15 +171,17 @@ public final class Drivetrain implements AutoCloseable {
 
         double denominator = Math.max(Math.abs(x) + Math.abs(y) + Math.abs(turn), 1);
 
-        frontLeft.setPower((y + x + turn) / denominator);
-        frontRight.setPower((y - x - turn) / denominator);
-        backLeft.setPower((y - x + turn) / denominator);
-        backRight.setPower((y + x - turn) / denominator);
+        frontLeft.setPower((y + x + turn) * scalar / denominator);
+        frontRight.setPower((y - x - turn) * scalar/ denominator);
+        backLeft.setPower((y - x + turn) * scalar / denominator);
+        backRight.setPower((y + x - turn) * scalar / denominator);
     }
 
     public void usePreviousStartingPose() {
         follower.setStartingPose(poseTransfer);
     }
+
+    public double scalar = 1.0;
 
     public Command followPath(PathChain path) {
         return Command.build()

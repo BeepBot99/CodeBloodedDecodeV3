@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.control.ShootingController;
 import org.firstinspires.ftc.teamcode.util.Alliance;
 import org.firstinspires.ftc.teamcode.util.RobotOpMode;
+import com.pedropathing.paths.HeadingInterpolator;
 
 import static com.pedropathing.ivy.Scheduler.schedule;
 import static com.pedropathing.ivy.commands.Commands.*;
@@ -202,7 +203,7 @@ public class RedNearGate extends RobotOpMode {
                     .addPath(
                             new BezierLine(
                                     new Pose(80, 82),
-                                    new Pose(103.5, 59)
+                                    new Pose(103.5, 58)
                             )
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(-50), 0)
@@ -211,8 +212,8 @@ public class RedNearGate extends RobotOpMode {
             intakeSecondRow2 = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    new Pose(103.5, 59),
-                                    new Pose(122, 59)
+                                    new Pose(103.5, 58),
+                                    new Pose(122, 58)
                             )
                     )
                     .setConstantHeadingInterpolation(0)
@@ -221,7 +222,7 @@ public class RedNearGate extends RobotOpMode {
             toThirdShoot = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    new Pose(122, 59),
+                                    new Pose(122, 58),
                                     new Pose(80, 82)
                             )
                     )
@@ -257,11 +258,11 @@ public class RedNearGate extends RobotOpMode {
                     .addPath(
                             new BezierCurve(
                                     new Pose(129.5, 57.5),
-                                    new Pose(125, 50),
+                                    new Pose(110, 50),
                                     new Pose(90, 118)
                             )
                     )
-                    .setConstantHeadingInterpolation(Math.toRadians(-30))
+                    .setHeadingInterpolation(HeadingInterpolator.tangent.reverse())
                     .addParametricCallback(0.6, () -> follower.setMaxPower(0.4))
                     .build();
         }

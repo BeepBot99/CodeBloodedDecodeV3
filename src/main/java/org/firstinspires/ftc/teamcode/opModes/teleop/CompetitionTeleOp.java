@@ -11,7 +11,6 @@ import org.firstinspires.ftc.teamcode.util.RobotOpMode;
 @Config("TeleOp")
 public class CompetitionTeleOp extends RobotOpMode {
     private ShootingController shootingController;
-
     @Override
     public void init() {
         super.init();
@@ -48,6 +47,9 @@ public class CompetitionTeleOp extends RobotOpMode {
                 gamepad1.rumble(30);
                 gamepad2.rumble(30);
             }
+
+            if (gamepad2.dpadDownWasPressed()) drivetrain.scalar = 0.4;
+            if (gamepad2.dpadUpWasPressed()) drivetrain.scalar = 1.0;
 
             drivetrain.arcadeDrive(
                     -gamepad1.left_stick_y,
